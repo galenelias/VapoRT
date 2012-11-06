@@ -1,0 +1,149 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Common">
+      <UniqueIdentifier>30cb088a-a0ae-4ff4-adfb-301a8cf4a988</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Assets">
+      <UniqueIdentifier>cc0ae5f9-a83c-4f9c-a843-21d9ea2a1fe8</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DataModel">
+      <UniqueIdentifier>252e854a-b6ce-4396-91af-7d9033d91077</UniqueIdentifier>
+    </Filter>
+    <None Include="Common\ReadMe.txt">
+      <Filter>Common</Filter>
+    </None>
+    <Page Include="Common\StandardStyles.xaml">
+      <Filter>Common</Filter>
+    </Page>
+    <ClCompile Include="Common\BindableBase.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Common\BooleanToVisibilityConverter.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Common\BooleanNegationConverter.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Common\RichTextColumns.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Common\LayoutAwarePage.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Common\SuspensionManager.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClInclude Include="Common\BindableBase.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\BooleanToVisibilityConverter.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\BooleanNegationConverter.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\RichTextColumns.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\LayoutAwarePage.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\SuspensionManager.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <Image Include="Assets\Logo.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\SmallLogo.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\StoreLogo.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\SplashScreen.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\LightGray.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\MediumGray.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <Image Include="Assets\DarkGray.png">
+      <Filter>Assets</Filter>
+    </Image>
+    <ClCompile Include="DataModel\SampleDataSource.cpp">
+      <Filter>DataModel</Filter>
+    </ClCompile>
+    <ClInclude Include="DataModel\SampleDataSource.h">
+      <Filter>DataModel</Filter>
+    </ClInclude>
+    <Filter Include="ViewModel">
+      <UniqueIdentifier>{316d3f56-0575-4da4-bd24-4a3ca92b57a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="XAML">
+      <UniqueIdentifier>{c6f227d1-bc0b-4e52-8087-4d158b9fb52f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DesignTimeData">
+      <UniqueIdentifier>{3add57c8-24d0-4667-9f3c-5b4c04f7bf54}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="App.xaml.cpp" />
+    <ClCompile Include="ItemsPage.xaml.cpp" />
+    <ClCompile Include="SplitPage.xaml.cpp" />
+    <ClCompile Include="pch.cpp" />
+    <ClCompile Include="ViewModel\SteamViewModel.cpp">
+      <Filter>ViewModel</Filter>
+    </ClCompile>
+    <ClCompile Include="Common\DelegateCommand.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="pch.h" />
+    <ClInclude Include="App.xaml.h" />
+    <ClInclude Include="ItemsPage.xaml.h" />
+    <ClInclude Include="SplitPage.xaml.h" />
+    <ClInclude Include="ViewModel\SteamViewModel.h">
+      <Filter>ViewModel</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\DelegateCommand.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <AppxManifest Include="Package.appxmanifest" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="VapoRT_TemporaryKey.pfx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="LoginPage.xaml">
+      <Filter>XAML</Filter>
+    </Page>
+    <Page Include="ItemsPage.xaml">
+      <Filter>XAML</Filter>
+    </Page>
+    <Page Include="SplitPage.xaml">
+      <Filter>XAML</Filter>
+    </Page>
+    <Page Include="DesignTimeData_Login.xaml">
+      <Filter>DesignTimeData</Filter>
+    </Page>
+    <Page Include="DesignTimeData_Friends.xaml">
+      <Filter>DesignTimeData</Filter>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Assets\Steam_Logo.png">
+      <Filter>Assets</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Filter>XAML</Filter>
+    </ApplicationDefinition>
+  </ItemGroup>
+</Project>

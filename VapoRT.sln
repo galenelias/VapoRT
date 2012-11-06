@@ -1,0 +1,52 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "VapoRT", "VapoRT\VapoRT.vcxproj", "{30CB088A-A0AE-4FF4-ADFB-301A8CF4A988}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SteamApi", "SteamApi\SteamApi.vcxproj", "{8A4B7F0F-DF35-4B2A-B2B0-1EF5C6DBE47F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|ARM = Debug|ARM
+		Debug|Win32 = Debug|Win32
+		Debug|x64 = Debug|x64
+		Release|ARM = Release|ARM
+		Release|Win32 = Release|Win32
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{30CB088A-A0AE-4FF4-ADFB-301A8CF4A988}.Debug|ARM.ActiveCfg = Debug|ARM
+		{30CB088A-A0AE-4FF4-ADFB-301A8CF4A988}.Debug|ARM.Build.0 = Debug|ARM
+		{30CB088A-A0AE-4FF4-ADFB-301A8CF4A988}.Debug|ARM.Deploy.0 = Debug|ARM
+		{30CB088A-A0AE-4FF4-ADFB-301A8CF4A988}.Debug|Win32.ActiveCfg = Debug|Win32
+		{30CB088A-A0AE-4FF4-ADFB-301A8CF4A988}.Debug|Win32.Build.0 = Debug|Win32
+		{30CB088A-A0AE-4FF4-ADFB-301A8CF4A988}.Debug|Win32.Deploy.0 = Debug|Win32
+		{30CB088A-A0AE-4FF4-ADFB-301A8CF4A988}.Debug|x64.ActiveCfg = Debug|x64
+		{30CB088A-A0AE-4FF4-ADFB-301A8CF4A988}.Debug|x64.Build.0 = Debug|x64
+		{30CB088A-A0AE-4FF4-ADFB-301A8CF4A988}.Debug|x64.Deploy.0 = Debug|x64
+		{30CB088A-A0AE-4FF4-ADFB-301A8CF4A988}.Release|ARM.ActiveCfg = Release|ARM
+		{30CB088A-A0AE-4FF4-ADFB-301A8CF4A988}.Release|ARM.Build.0 = Release|ARM
+		{30CB088A-A0AE-4FF4-ADFB-301A8CF4A988}.Release|ARM.Deploy.0 = Release|ARM
+		{30CB088A-A0AE-4FF4-ADFB-301A8CF4A988}.Release|Win32.ActiveCfg = Release|Win32
+		{30CB088A-A0AE-4FF4-ADFB-301A8CF4A988}.Release|Win32.Build.0 = Release|Win32
+		{30CB088A-A0AE-4FF4-ADFB-301A8CF4A988}.Release|Win32.Deploy.0 = Release|Win32
+		{30CB088A-A0AE-4FF4-ADFB-301A8CF4A988}.Release|x64.ActiveCfg = Release|x64
+		{30CB088A-A0AE-4FF4-ADFB-301A8CF4A988}.Release|x64.Build.0 = Release|x64
+		{30CB088A-A0AE-4FF4-ADFB-301A8CF4A988}.Release|x64.Deploy.0 = Release|x64
+		{8A4B7F0F-DF35-4B2A-B2B0-1EF5C6DBE47F}.Debug|ARM.ActiveCfg = Debug|ARM
+		{8A4B7F0F-DF35-4B2A-B2B0-1EF5C6DBE47F}.Debug|ARM.Build.0 = Debug|ARM
+		{8A4B7F0F-DF35-4B2A-B2B0-1EF5C6DBE47F}.Debug|Win32.ActiveCfg = Debug|Win32
+		{8A4B7F0F-DF35-4B2A-B2B0-1EF5C6DBE47F}.Debug|Win32.Build.0 = Debug|Win32
+		{8A4B7F0F-DF35-4B2A-B2B0-1EF5C6DBE47F}.Debug|x64.ActiveCfg = Debug|x64
+		{8A4B7F0F-DF35-4B2A-B2B0-1EF5C6DBE47F}.Debug|x64.Build.0 = Debug|x64
+		{8A4B7F0F-DF35-4B2A-B2B0-1EF5C6DBE47F}.Release|ARM.ActiveCfg = Release|ARM
+		{8A4B7F0F-DF35-4B2A-B2B0-1EF5C6DBE47F}.Release|ARM.Build.0 = Release|ARM
+		{8A4B7F0F-DF35-4B2A-B2B0-1EF5C6DBE47F}.Release|Win32.ActiveCfg = Release|Win32
+		{8A4B7F0F-DF35-4B2A-B2B0-1EF5C6DBE47F}.Release|Win32.Build.0 = Release|Win32
+		{8A4B7F0F-DF35-4B2A-B2B0-1EF5C6DBE47F}.Release|x64.ActiveCfg = Release|x64
+		{8A4B7F0F-DF35-4B2A-B2B0-1EF5C6DBE47F}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,42 @@
+﻿<SteamDataDesignVM xmlns="using:VapoRT" Title="Friends">
+    <SteamDataDesignVM.Items>
+        <SteamUserDesignVM SteamID="123456789" PersonaName="Michael Myers" StatusString="In Game: Dota 2" OnlineStatus="1" InGame="True" StatusColor="#FFA7D46B">
+            <SteamUserDesignVM.ConversationHistory>
+                <ConversationItemVM Message="Hey there!" From="Paradochs" FromMe="False" />
+                <ConversationItemVM Message="sup?" From="Davian" FromMe="True" />
+                <ConversationItemVM Message="Not much, up for a game?" From="Paradochs" FromMe="False" />
+                <ConversationItemVM Message="Sure, gimme one sec" From="Davian" FromMe="True" />
+                <ConversationItemVM Message="Ok, let me know when you're ready" From="Paradochs" FromMe="False" />
+            </SteamUserDesignVM.ConversationHistory>            
+        </SteamUserDesignVM>
+        <SteamUserDesignVM SteamID="123456789" PersonaName="Seth Green" StatusString="Away" OnlineStatus="2" InGame="False" StatusColor="#FF8ECAFC" />
+        <SteamUserDesignVM SteamID="123456789" PersonaName="Ron Burgandy" StatusString="Offline: Last online 28 days ago" OnlineStatus="2" InGame="False" StatusColor="#FF808080" />
+    </SteamDataDesignVM.Items>
+    <!--<SteamDataDesignVM.ConversationHistory>
+        <ConversationItemVM Message="Hey there!" From="Paradochs" FromMe="False" />
+        <ConversationItemVM Message="sup?" From="Davian" FromMe="True" />
+        <ConversationItemVM Message="Not much, up for a game?" From="Paradochs" FromMe="False" />
+        <ConversationItemVM Message="Sure, gimme one sec" From="Davian" FromMe="True" />
+        <ConversationItemVM Message="Ok, let me know when you're ready" From="Paradochs" FromMe="False" />
+        <ConversationItemVM Message="Will do, just give me a few" From="Davian" FromMe="True" />
+        <ConversationItemVM Message="Sounds good" From="Paradochs" FromMe="False" />
+        <ConversationItemVM Message="Hello World" From="Davian" FromMe="True" />
+        <ConversationItemVM Message="Yo" From="Paradochs" FromMe="False" />
+        <ConversationItemVM Message="Hello World" From="Davian" FromMe="True" />
+        <ConversationItemVM Message="Yo" From="Paradochs" FromMe="False" />
+        <ConversationItemVM Message="Hello World" From="Davian" FromMe="True" />
+        <ConversationItemVM Message="Yo" From="Paradochs" FromMe="False" />
+        <ConversationItemVM Message="Hello World" From="Davian" FromMe="True" />
+        <ConversationItemVM Message="Yo" From="Paradochs" FromMe="False" />
+        <ConversationItemVM Message="Hello World" From="Davian" FromMe="True" />
+        <ConversationItemVM Message="Yo" From="Paradochs" FromMe="False" />
+        <ConversationItemVM Message="Hello World" From="Davian" FromMe="True" />
+        <ConversationItemVM Message="Yo" From="Paradochs" FromMe="False" />
+        <ConversationItemVM Message="Hello World" From="Davian" FromMe="True" />
+        <ConversationItemVM Message="Yo" From="Paradochs" FromMe="False" />
+        <ConversationItemVM Message="Hello World" From="Davian" FromMe="True" />
+        <ConversationItemVM Message="Yo" From="Paradochs" FromMe="False" />
+    </SteamDataDesignVM.ConversationHistory>-->
+    
+</SteamDataDesignVM>
+

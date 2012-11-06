@@ -1,0 +1,9 @@
+﻿<SteamConnectionVM 
+    xmlns="using:VapoRT"
+    UserName="John_Doe"
+    Password="p@ssw0rd"
+    FConnecting="False"
+    Status="Status String"
+    SteamGuard="SteamGuard"
+    FInputSteamGuard="True"
+/>
