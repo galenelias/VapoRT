@@ -94,6 +94,10 @@ namespace VapoRT
 		void LoginAsync(Platform::String^ UserName, Platform::String^ Password);
 
 	private:
+		void LoadSavedCredentials();
+		void ClearSavedCredentials();
+		void SaveCredentials();
+
 		SteamAPI::SteamConnectionPtr m_model;
 	};
 

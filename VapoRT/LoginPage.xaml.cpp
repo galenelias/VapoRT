@@ -24,6 +24,23 @@ using namespace Windows::UI::Xaml::Navigation;
 LoginPage::LoginPage()
 {
 	InitializeComponent();
+
+	SteamAPI::SteamConnectionPtr steamConnection = safe_cast<App^>(App::Current)->ActiveConnection;
+	SteamConnectionVM^ connection = ref new SteamConnectionVM(steamConnection);
+
+	this->DataContext = connection;
+
+	//Platform::WeakReference wrThis(this);
+	//auto dispatcher = Windows::UI::Core::CoreWindow::GetForCurrentThread()->Dispatcher;
+
+	//m_autoConnectionChangeListener.AddListener(&steamConnection->GetConnectionChangeEvent(), [wrThis, dispatcher](SteamAPI::ISteamConnection * /*sender*/, SteamAPI::EConnectionStatus status) {
+	//	dispatcher->RunAsync(CoreDispatcherPriority::Normal, ref new DispatchedHandler([wrThis]() {
+	//		auto page = wrThis.Resolve<SteamLoginPage>();
+	//		if (page)
+	//			page->Frame->Navigate(Windows::UI::Xaml::Interop::TypeName(MainPage::typeid));
+	//	}));
+	//});
+
 }
 
 /// <summary>

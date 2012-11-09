@@ -4,6 +4,7 @@
 
 using namespace Platform;
 using namespace Windows::UI::Core;
+using namespace Windows::Security::Credentials;
 using namespace Util;
 using namespace VapoRT::Common;
 
@@ -50,11 +51,76 @@ SteamConnectionVM::SteamConnectionVM(SteamAPI::SteamConnectionPtr connection)
 	DoLoginCommand = ref new DelegateCommand(
 		ref new ExecuteDelegate([this](Object^) { LoginAsync(UserName, Password); })
 		);
-	UserName = L"johndoe";
-	Password = L"p4ssw0rd";
-	SteamGuard = L"31337";
+
+	LoadSavedCredentials();
+
 	FInputSteamGuard = false;
 }
+
+void SteamConnectionVM::LoadSavedCredentials()
+{
+	try
+	{
+		PasswordCredential^ cred = ref new PasswordCredential();
+		Windows::Security::Credentials::PasswordVault^ vault = ref new Windows::Security::Credentials::PasswordVault();
+		Windows::Foundation::Collections::IVectorView<PasswordCredential^>^ Creds = vault->FindAllByResource("SteamLogin");
+		for each (PasswordCredential^ cred in Creds)
+		{
+			try
+			{
+				cred->RetrievePassword();
+				UserName = cred->UserName;
+				Password = cred->Password;
+
+				SteamGuard = ref new String(m_model->LookupSteamGuard(begin(UserName)).c_str());
+			}
+			catch (Platform::COMException^ Error)
+			{
+
+			}
+		}
+	}
+	catch (Platform::Exception^ Error)
+	{
+		
+	}
+}
+
+void SteamConnectionVM::SaveCredentials()
+{
+	Windows::Security::Credentials::PasswordVault^ vault = ref new Windows::Security::Credentials::PasswordVault();
+
+	PasswordCredential^ cred = ref new PasswordCredential("SteamLogin", UserName, Password);
+	vault->Add(cred);
+
+	m_model->SaveSteamGuard(begin(UserName), begin(SteamGuard));
+}
+
+void SteamConnectionVM::ClearSavedCredentials()
+{
+	try
+	{
+		Windows::Security::Credentials::PasswordVault^ vault = ref new Windows::Security::Credentials::PasswordVault();
+		Windows::Foundation::Collections::IVectorView<PasswordCredential^>^ creds = vault->FindAllByResource("SteamLogin");
+
+		for each (PasswordCredential^ c in creds)
+		{
+			try
+			{
+				vault->Remove(c);
+			}
+			catch (Platform::COMException^ Error) // No stored credentials, so none to delete
+			{
+				
+			}
+		}
+	}
+	catch (Platform::COMException^ Error) // No stored credentials, so none to delete
+	{
+		
+	}
+}
+
 
 void SteamConnectionVM::LoginAsync(String^ UserName, String^ Password)
 {
@@ -94,6 +160,7 @@ void SteamConnectionVM::LoginAsync(String^ UserName, String^ Password)
 				//		return m_model->GetMessages(lastMessage, true);
 				//	});
 				//});
+				SaveCredentials();
 			}
 		}
 		catch (std::exception e)

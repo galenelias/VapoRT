@@ -65,7 +65,7 @@
             <Image Source="Assets/Steam_Logo.png" Grid.Column="0" Grid.Row="0"  Grid.RowSpan="3" VerticalAlignment="Top"  Stretch="Uniform" Width="100" Height="100" Margin="10,0,10,10" />
 
             <TextBlock Grid.Column ="1" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Right" FontSize="14" Margin="10,0,0,0">User Name:</TextBlock>
-            <TextBox x:Name="LoginUserName"  Grid.Column="2" Grid.Row="0" Margin="5,5,5,5" Width="200" Text="{Binding Path=UserName}" VerticalAlignment="Center" 
+            <TextBox x:Name="LoginUserName"  Grid.Column="2" Grid.Row="0" Margin="5,5,5,5" Width="200" Text="{Binding Path=UserName, Mode=TwoWay}" VerticalAlignment="Center" 
                  />
             <!--local:UpdateSourceHelper.IsEnabled = "True"
                  local:UpdateSourceHelper.UpdateSourceText = "{Binding Path=UserName, Mode=TwoWay}"

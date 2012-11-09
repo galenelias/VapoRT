@@ -77,6 +77,9 @@ namespace SteamAPI
 		virtual concurrency::task<FriendsList_t> GetFriendsListAsync(const SteamID_t & pwszSteamId) override;
 		virtual SteamUserPtr                     GetLoggedInUser() override;
 
+		virtual std::wstring            LookupSteamGuard(const wchar_t *pwzUserName) override;
+		virtual void                    SaveSteamGuard(const wchar_t *pwzUserName, const wchar_t *pwzSteamGuard) override;
+
 		virtual concurrency::task<UserDataList_t> GetUsersDataAsync(const FriendsList_t & rgFriendsList) override;
 
 		virtual IEvent<ISteamConnection, EConnectionStatus>& GetConnectionChangeEvent() override { return m_ConnectionChangeEvent; }

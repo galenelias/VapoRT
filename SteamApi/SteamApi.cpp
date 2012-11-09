@@ -298,6 +298,7 @@ namespace SteamAPI
 		db.FInitializeDatabase(StrWideToMulti(m_wstDatabaseFile.data()).data());
 
 		bool fCreated = db.FCreateTable("ConversationHistory", "SteamID TEXT, FromMe BOOLEAN, Message TEXT, Sent DATETIME");
+		fCreated = db.FCreateTable("UserTable", "SteamID TEXT, SteamGuard TEXT");
 		assert(fCreated);
 	}
 
@@ -778,5 +779,32 @@ namespace SteamAPI
 
 		std::swap(m_ConversationItems, rgConversationHistory);
 	}
+
+	std::wstring SteamConnection::LookupSteamGuard(const wchar_t *pwzUserName) 
+	{
+		std::string strQuery = FormatStr("SELECT SteamGuard FROM UserTable WHERE SteamID=\"%S\"", pwzUserName);
+
+		CSQLite_Connection & db = CSteamDBConnection::GetInstance();
+		CSQLite_Results results = db.FRunQuery(strQuery.data());
+
+		if (results.NRows() >= 1)
+			return StrMultiToWide(results[0][0]);
+		else
+			return std::wstring();
+	}
+
+	void SteamConnection::SaveSteamGuard(const wchar_t *pwzUserName, const wchar_t *pwzSteamGuard)
+	{
+		std::string strQuery;
+
+		if (LookupSteamGuard(pwzUserName) != L"")
+			strQuery = FormatStr("UPDATE UserTable SET SteamGuard='%S' WHERE SteamID='%S'", pwzSteamGuard, pwzUserName);
+		else
+			strQuery = FormatStr("INSERT INTO UserTable VALUES ('%S', '%S')", pwzUserName, pwzSteamGuard);
+
+		CSQLite_Connection & db = CSteamDBConnection::GetInstance();
+		CSQLite_Results results = db.FRunQuery(strQuery.data());
+	}
+
 
 }  // End namespace SteamAPI

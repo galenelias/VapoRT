@@ -110,6 +110,8 @@ namespace SteamAPI
 	public:
 		virtual concurrency::task<LoginResultPtr> Login(const char *pszUserName, const char *pszPassword, const char *pszAuthCode) = 0;
 
+		virtual std::wstring            LookupSteamGuard(const wchar_t *pwzUserName);
+		virtual void                    SaveSteamGuard(const wchar_t *pwzUserName, const wchar_t *pwzSteamGuard);
 		virtual bool                    IsLoggedInToChat() = 0;
 		virtual concurrency::task<int>  ChatLogin() = 0;
 		virtual concurrency::task<void> GetMessages(int message, bool fSecure) = 0;
