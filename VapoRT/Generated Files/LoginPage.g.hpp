@@ -22,6 +22,8 @@ void ::VapoRT::LoginPage::InitializeComponent()
     // Call LoadComponent on ms-appx:///LoginPage.xaml
     ::Windows::UI::Xaml::Application::LoadComponent(this, ref new ::Windows::Foundation::Uri(L"ms-appx:///LoginPage.xaml"), ::Windows::UI::Xaml::Controls::Primitives::ComponentResourceLocation::Application);
 
+    // Get the TextBlock named 'pageTitle'
+    pageTitle = safe_cast<::Windows::UI::Xaml::Controls::TextBlock^>(static_cast<Windows::UI::Xaml::IFrameworkElement^>(this)->FindName(L"pageTitle"));
     // Get the TextBox named 'LoginUserName'
     LoginUserName = safe_cast<::Windows::UI::Xaml::Controls::TextBox^>(static_cast<Windows::UI::Xaml::IFrameworkElement^>(this)->FindName(L"LoginUserName"));
     // Get the PasswordBox named 'LoginPassword'
@@ -34,8 +36,6 @@ void ::VapoRT::LoginPage::InitializeComponent()
     progressRing1 = safe_cast<::Windows::UI::Xaml::Controls::ProgressRing^>(static_cast<Windows::UI::Xaml::IFrameworkElement^>(this)->FindName(L"progressRing1"));
     // Get the Button named 'LoginButton'
     LoginButton = safe_cast<::Windows::UI::Xaml::Controls::Button^>(static_cast<Windows::UI::Xaml::IFrameworkElement^>(this)->FindName(L"LoginButton"));
-    // Get the TextBlock named 'pageTitle'
-    pageTitle = safe_cast<::Windows::UI::Xaml::Controls::TextBlock^>(static_cast<Windows::UI::Xaml::IFrameworkElement^>(this)->FindName(L"pageTitle"));
     // Get the VisualStateGroup named 'ApplicationViewStates'
     ApplicationViewStates = safe_cast<::Windows::UI::Xaml::VisualStateGroup^>(static_cast<Windows::UI::Xaml::IFrameworkElement^>(this)->FindName(L"ApplicationViewStates"));
     // Get the VisualState named 'FullScreenLandscape'

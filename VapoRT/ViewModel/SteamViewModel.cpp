@@ -54,7 +54,7 @@ SteamConnectionVM::SteamConnectionVM(SteamAPI::SteamConnectionPtr connection)
 
 	LoadSavedCredentials();
 
-	FInputSteamGuard = false;
+	FInputSteamGuard = SteamGuard->IsEmpty();
 }
 
 void SteamConnectionVM::LoadSavedCredentials()
@@ -88,8 +88,10 @@ void SteamConnectionVM::LoadSavedCredentials()
 
 void SteamConnectionVM::SaveCredentials()
 {
-	Windows::Security::Credentials::PasswordVault^ vault = ref new Windows::Security::Credentials::PasswordVault();
+	// Only save one user-name password at a time.
+	ClearSavedCredentials();
 
+	Windows::Security::Credentials::PasswordVault^ vault = ref new Windows::Security::Credentials::PasswordVault();
 	PasswordCredential^ cred = ref new PasswordCredential("SteamLogin", UserName, Password);
 	vault->Add(cred);
 

@@ -7,16 +7,14 @@
     xmlns:common="using:VapoRT.Common"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    d:DataContext="{d:DesignData Source=DesignTimeData_Login.xaml}"    
-    mc:Ignorable="d">
+    mc:Ignorable="d"
+    d:DataContext="{d:DesignData Source=DesignTimeData_Login.xaml}"
+    >
 
-    <Page.Resources>
-
-        <!-- TODO: Delete this line if the key AppName is declared in App.xaml -->
+    <common:LayoutAwarePage.Resources>
         <x:String x:Key="AppName">VapoRT</x:String>
-
         <common:BooleanToVisibilityConverter x:Key="boolVisConverter" />
-    </Page.Resources>
+    </common:LayoutAwarePage.Resources>
 
     <!--
         This grid acts as a root panel for the page that defines two rows:
@@ -25,22 +23,10 @@
     -->
     <Grid Style="{StaticResource LayoutRootStyle}">
         <Grid.RowDefinitions>
-            <RowDefinition Height="140"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <!-- Back button and page title -->
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-
-            <TextBlock x:Name="pageTitle" Grid.Column="1" Text="{StaticResource AppName}" Style="{StaticResource PageHeaderTextStyle}" Margin="36" />
-
-        </Grid>
-
-        <Grid Grid.Row="1" Background="{StaticResource ApplicationPageBackgroundThemeBrush}" VerticalAlignment="Center" HorizontalAlignment="Center" >
+        <Grid Background="{StaticResource ApplicationPageBackgroundThemeBrush}" VerticalAlignment="Center" HorizontalAlignment="Center" >
             <!--Background="{StaticResource ApplicationPageBackgroundThemeBrush}"-->
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
@@ -48,44 +34,39 @@
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <!--UserName-->
-                <RowDefinition Height="Auto" />
-                <!--Password-->
-                <RowDefinition Height="Auto" />
-                <!--SteamGuard-->
-                <RowDefinition Height="Auto" />
-                <!--Login-->
-                <RowDefinition Height="Auto" />
-                <!--Status-->
-                <RowDefinition Height="Auto" />
-                <!--SteamGuard2-->
+                <RowDefinition Height="Auto" />  <!--App Title-->
+                <RowDefinition Height="Auto" />  <!--UserName-->
+                <RowDefinition Height="Auto" />  <!--Password-->
+                <RowDefinition Height="Auto" />  <!--SteamGuard-->
+                <RowDefinition Height="Auto" />  <!--Login-->
+                <RowDefinition Height="Auto" />  <!--Status-->
+                <RowDefinition Height="Auto" />  <!--SteamGuard2-->
             </Grid.RowDefinitions>
 
-            <Image Source="Assets/Steam_Logo.png" Grid.Column="0" Grid.Row="0"  Grid.RowSpan="3" VerticalAlignment="Top"  Stretch="Uniform" Width="100" Height="100" Margin="10,0,10,10" />
+            <TextBlock x:Name="pageTitle" Grid.ColumnSpan="3" Text="{StaticResource AppName}" Style="{StaticResource PageHeaderTextStyle}" Margin="36" VerticalAlignment="Center" HorizontalAlignment="Center"/>
 
-            <TextBlock Grid.Column ="1" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Right" FontSize="14" Margin="10,0,0,0">User Name:</TextBlock>
-            <TextBox x:Name="LoginUserName"  Grid.Column="2" Grid.Row="0" Margin="5,5,5,5" Width="200" Text="{Binding Path=UserName, Mode=TwoWay}" VerticalAlignment="Center" 
+            <Image Source="Assets/Steam_Logo.png" Grid.Column="0" Grid.Row="1"  Grid.RowSpan="3" VerticalAlignment="Top"  Stretch="Uniform" Width="100" Height="100" Margin="10,0,10,10" />
+
+            <TextBlock Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right" FontSize="14" Margin="10,0,0,0">User Name:</TextBlock>
+            <TextBox x:Name="LoginUserName" Grid.Row="1"  Grid.Column="2" Margin="5,5,5,5" Width="200" Text="{Binding Path=UserName, Mode=TwoWay}" VerticalAlignment="Center" 
                  />
             <!--local:UpdateSourceHelper.IsEnabled = "True"
                  local:UpdateSourceHelper.UpdateSourceText = "{Binding Path=UserName, Mode=TwoWay}"
                  local:EnterKeyToCommand.EnterKeyCommand = "{Binding DoLoginCommand}"-->
 
-            <TextBlock Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Right" FontSize="14" Margin="10,0,0,0">Password:</TextBlock>
-            <PasswordBox x:Name="LoginPassword" Grid.Column="2" Grid.Row="1" Margin="5,5,5,5" Width="200" Password="{Binding Path=Password, Mode=TwoWay}"  VerticalAlignment="Center" IsPasswordRevealButtonEnabled="True"  />
+            <TextBlock Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right" FontSize="14" Margin="10,0,0,0">Password:</TextBlock>
+            <PasswordBox x:Name="LoginPassword" Grid.Row="2" Grid.Column="2" Margin="5,5,5,5" Width="200" Password="{Binding Path=Password, Mode=TwoWay}"  VerticalAlignment="Center" IsPasswordRevealButtonEnabled="True"  />
 
-            <TextBlock Grid.Row="5" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right" FontSize="14" Margin="10,0,0,0" Visibility="{Binding Path=FInputSteamGuard, Converter={StaticResource boolVisConverter}}"><!--Steam Guard:-->
-            </TextBlock>
-            <TextBox x:Name="SteamGuard"  Grid.Row="5" Grid.Column="2" Margin="5,5,5,5" Width="200" Text="{Binding Path=SteamGuard, Mode=TwoWay}" VerticalAlignment="Center" Visibility="{Binding Path=FInputSteamGuard, Converter={StaticResource boolVisConverter}}" />
+            <CheckBox Grid.Row="6" Grid.Column="0" Content="Set SteamGuard" IsChecked="{Binding Path=FInputSteamGuard, Mode=TwoWay}"/>
+            <TextBlock Grid.Row="6" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right" FontSize="14" Margin="10,0,0,0" Visibility="{Binding Path=FInputSteamGuard, Converter={StaticResource boolVisConverter}}" />
+            <TextBox x:Name="SteamGuard" Grid.Row="6" Grid.Column="2" Margin="5,5,5,5" Width="200" Text="{Binding Path=SteamGuard, Mode=TwoWay}" VerticalAlignment="Center" Visibility="{Binding Path=FInputSteamGuard, Converter={StaticResource boolVisConverter}}" />
 
-            <CheckBox Grid.Row="5" Grid.Column="0" Content="Set SteamGuard" IsChecked="{Binding Path=FInputSteamGuard, Mode=TwoWay}"/>
-
-            <StackPanel Orientation="Horizontal" Grid.Row ="3" Grid.Column="0"  Grid.ColumnSpan="3" HorizontalAlignment="Right">
+            <StackPanel Orientation="Horizontal" Grid.Row ="4" Grid.Column="0"  Grid.ColumnSpan="3" HorizontalAlignment="Right">
                 <ProgressRing x:Name="progressRing1" Width="32" Height="32" HorizontalAlignment="Center" Margin="10,0" IsActive="{Binding Path=FConnecting}" IsHitTestVisible="True" />
                 <Button x:Name="LoginButton" HorizontalAlignment="Center" Content="Log In"  Command="{Binding DoLoginCommand}" IsEnabled="{Binding LoginButtonEnabled}" />
             </StackPanel>
 
-            <TextBlock x:Name="StatusString" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" Margin="5,5,5,5"  Text="{Binding Status}"/>
+            <TextBlock x:Name="StatusString" Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="3" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" Margin="5,5,5,5"  Text="{Binding Status}"/>
             <!--{Binding StatusString}-->
         </Grid>
 

@@ -12,9 +12,9 @@ namespace Windows {
     namespace UI {
         namespace Xaml {
             namespace Controls {
+                ref class TextBlock;
                 ref class TextBox;
                 ref class PasswordBox;
-                ref class TextBlock;
                 ref class ProgressRing;
                 ref class Button;
             }
@@ -42,13 +42,13 @@ namespace VapoRT
     private:
         bool _contentLoaded;
     
+        private: ::Windows::UI::Xaml::Controls::TextBlock^ pageTitle;
         private: ::Windows::UI::Xaml::Controls::TextBox^ LoginUserName;
         private: ::Windows::UI::Xaml::Controls::PasswordBox^ LoginPassword;
         private: ::Windows::UI::Xaml::Controls::TextBox^ SteamGuard;
         private: ::Windows::UI::Xaml::Controls::TextBlock^ StatusString;
         private: ::Windows::UI::Xaml::Controls::ProgressRing^ progressRing1;
         private: ::Windows::UI::Xaml::Controls::Button^ LoginButton;
-        private: ::Windows::UI::Xaml::Controls::TextBlock^ pageTitle;
         private: ::Windows::UI::Xaml::VisualStateGroup^ ApplicationViewStates;
         private: ::Windows::UI::Xaml::VisualState^ FullScreenLandscape;
         private: ::Windows::UI::Xaml::VisualState^ Filled;
