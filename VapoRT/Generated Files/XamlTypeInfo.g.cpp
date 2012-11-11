@@ -9,11 +9,13 @@
 #include "pch.h"
 #include "XamlTypeInfo.g.h"
 
+#include "ChatPage.xaml.h"
 #include "LoginPage.xaml.h"
 #include "App.xaml.h"
 #include "ItemsPage.xaml.h"
 #include "SplitPage.xaml.h"
 
+#include "ChatPage.g.hpp"
 #include "LoginPage.g.hpp"
 #include "App.g.hpp"
 #include "ItemsPage.g.hpp"
@@ -56,6 +58,16 @@
 
 ::Windows::UI::Xaml::Markup::IXamlType^ ::XamlTypeInfo::InfoProvider::XamlTypeInfoProvider::CreateXamlType(::Platform::String^ typeName)
 {
+    if (typeName == L"Windows.UI.Xaml.Controls.Page")
+    {
+        return ref new XamlSystemBaseType(typeName);
+    }
+
+    if (typeName == L"Windows.UI.Xaml.Controls.UserControl")
+    {
+        return ref new XamlSystemBaseType(typeName);
+    }
+
     if (typeName == L"Object")
     {
         return ref new XamlSystemBaseType(typeName);
@@ -66,17 +78,37 @@
         return ref new XamlSystemBaseType(typeName);
     }
 
+    if (typeName == L"Windows.UI.Xaml.Controls.DataTemplateSelector")
+    {
+        return ref new XamlSystemBaseType(typeName);
+    }
+
+    if (typeName == L"Windows.UI.Xaml.DataTemplate")
+    {
+        return ref new XamlSystemBaseType(typeName);
+    }
+
     if (typeName == L"Windows.UI.Xaml.DependencyObject")
     {
         return ref new XamlSystemBaseType(typeName);
     }
 
-    if (typeName == L"Int32")
+    if (typeName == L"Boolean")
     {
         return ref new XamlSystemBaseType(typeName);
     }
 
-    if (typeName == L"Boolean")
+    if (typeName == L"Windows.UI.Xaml.UIElement")
+    {
+        return ref new XamlSystemBaseType(typeName);
+    }
+
+    if (typeName == L"Windows.UI.Xaml.Input.ICommand")
+    {
+        return ref new XamlSystemBaseType(typeName);
+    }
+
+    if (typeName == L"Int32")
     {
         return ref new XamlSystemBaseType(typeName);
     }
@@ -96,27 +128,7 @@
         return ref new XamlSystemBaseType(typeName);
     }
 
-    if (typeName == L"Windows.UI.Xaml.Controls.Page")
-    {
-        return ref new XamlSystemBaseType(typeName);
-    }
-
-    if (typeName == L"Windows.UI.Xaml.Controls.UserControl")
-    {
-        return ref new XamlSystemBaseType(typeName);
-    }
-
     if (typeName == L"Windows.UI.Xaml.Media.ImageSource")
-    {
-        return ref new XamlSystemBaseType(typeName);
-    }
-
-    if (typeName == L"Windows.UI.Xaml.Controls.DataTemplateSelector")
-    {
-        return ref new XamlSystemBaseType(typeName);
-    }
-
-    if (typeName == L"Windows.UI.Xaml.DataTemplate")
     {
         return ref new XamlSystemBaseType(typeName);
     }
@@ -129,6 +141,83 @@
     if (typeName == L"UInt32")
     {
         return ref new XamlSystemBaseType(typeName);
+    }
+
+    if (typeName == L"VapoRT.Common.LayoutAwarePage")
+    {
+        ::XamlTypeInfo::InfoProvider::XamlUserType^ userType = ref new ::XamlTypeInfo::InfoProvider::XamlUserType(this, typeName, GetXamlTypeByName(L"Windows.UI.Xaml.Controls.Page"));
+        userType->KindOfType = ::Windows::UI::Xaml::Interop::TypeKind::Custom;
+        userType->AddMemberName(L"DefaultViewModel");
+        return userType;
+    }
+
+    if (typeName == L"Windows.Foundation.Collections.IObservableMap<String, Object>")
+    {
+        ::XamlTypeInfo::InfoProvider::XamlUserType^ userType = ref new ::XamlTypeInfo::InfoProvider::XamlUserType(this, typeName, nullptr);
+        userType->KindOfType = ::Windows::UI::Xaml::Interop::TypeKind::Metadata;
+        userType->DictionaryAdd =
+            [](Object^ instance, Object^ key, Object^ item) -> void
+            {
+                auto collection = (Windows::Foundation::Collections::IObservableMap<::Platform::String^, ::Platform::Object^>^)instance;
+                auto newKey = (Platform::String^)key;
+                auto newItem = (Platform::Object^)item;
+                collection->Insert(newKey, newItem);
+            };
+        return userType;
+    }
+
+    if (typeName == L"VapoRT.ConversationDataTemplateSelector")
+    {
+        ::XamlTypeInfo::InfoProvider::XamlUserType^ userType = ref new ::XamlTypeInfo::InfoProvider::XamlUserType(this, typeName, GetXamlTypeByName(L"Windows.UI.Xaml.Controls.DataTemplateSelector"));
+        userType->KindOfType = ::Windows::UI::Xaml::Interop::TypeKind::Custom;
+        userType->Activator =
+            []() -> Platform::Object^ 
+            {
+                return ref new ::VapoRT::ConversationDataTemplateSelector(); 
+            };
+        userType->AddMemberName(L"ToMeTemplate");
+        userType->AddMemberName(L"FromMeTemplate");
+        userType->SetIsBindable();
+        return userType;
+    }
+
+    if (typeName == L"VapoRT.UpdateSourceHelper")
+    {
+        ::XamlTypeInfo::InfoProvider::XamlUserType^ userType = ref new ::XamlTypeInfo::InfoProvider::XamlUserType(this, typeName, GetXamlTypeByName(L"Windows.UI.Xaml.DependencyObject"));
+        userType->KindOfType = ::Windows::UI::Xaml::Interop::TypeKind::Custom;
+        userType->Activator =
+            []() -> Platform::Object^ 
+            {
+                return ref new ::VapoRT::UpdateSourceHelper(); 
+            };
+        userType->AddMemberName(L"IsEnabled");
+        userType->AddMemberName(L"UpdateSourceText");
+        return userType;
+    }
+
+    if (typeName == L"VapoRT.EnterKeyToCommand")
+    {
+        ::XamlTypeInfo::InfoProvider::XamlUserType^ userType = ref new ::XamlTypeInfo::InfoProvider::XamlUserType(this, typeName, GetXamlTypeByName(L"Windows.UI.Xaml.DependencyObject"));
+        userType->KindOfType = ::Windows::UI::Xaml::Interop::TypeKind::Custom;
+        userType->Activator =
+            []() -> Platform::Object^ 
+            {
+                return ref new ::VapoRT::EnterKeyToCommand(); 
+            };
+        userType->AddMemberName(L"EnterKeyCommand");
+        return userType;
+    }
+
+    if (typeName == L"VapoRT.ChatPage")
+    {
+        ::XamlTypeInfo::InfoProvider::XamlUserType^ userType = ref new ::XamlTypeInfo::InfoProvider::XamlUserType(this, typeName, GetXamlTypeByName(L"VapoRT.Common.LayoutAwarePage"));
+        userType->KindOfType = ::Windows::UI::Xaml::Interop::TypeKind::Custom;
+        userType->Activator =
+            []() -> Platform::Object^ 
+            {
+                return ref new ::VapoRT::ChatPage(); 
+            };
+        return userType;
     }
 
     if (typeName == L"VapoRT.SteamDataDesignVM")
@@ -262,29 +351,6 @@
     {
         ::XamlTypeInfo::InfoProvider::XamlUserType^ userType = ref new ::XamlTypeInfo::InfoProvider::XamlUserType(this, typeName, GetXamlTypeByName(L"Object"));
         userType->KindOfType = ::Windows::UI::Xaml::Interop::TypeKind::Custom;
-        return userType;
-    }
-
-    if (typeName == L"VapoRT.Common.LayoutAwarePage")
-    {
-        ::XamlTypeInfo::InfoProvider::XamlUserType^ userType = ref new ::XamlTypeInfo::InfoProvider::XamlUserType(this, typeName, GetXamlTypeByName(L"Windows.UI.Xaml.Controls.Page"));
-        userType->KindOfType = ::Windows::UI::Xaml::Interop::TypeKind::Custom;
-        userType->AddMemberName(L"DefaultViewModel");
-        return userType;
-    }
-
-    if (typeName == L"Windows.Foundation.Collections.IObservableMap<String, Object>")
-    {
-        ::XamlTypeInfo::InfoProvider::XamlUserType^ userType = ref new ::XamlTypeInfo::InfoProvider::XamlUserType(this, typeName, nullptr);
-        userType->KindOfType = ::Windows::UI::Xaml::Interop::TypeKind::Metadata;
-        userType->DictionaryAdd =
-            [](Object^ instance, Object^ key, Object^ item) -> void
-            {
-                auto collection = (Windows::Foundation::Collections::IObservableMap<::Platform::String^, ::Platform::Object^>^)instance;
-                auto newKey = (Platform::String^)key;
-                auto newItem = (Platform::Object^)item;
-                collection->Insert(newKey, newItem);
-            };
         return userType;
     }
 
@@ -435,21 +501,6 @@
         return userType;
     }
 
-    if (typeName == L"VapoRT.ConversationDataTemplateSelector")
-    {
-        ::XamlTypeInfo::InfoProvider::XamlUserType^ userType = ref new ::XamlTypeInfo::InfoProvider::XamlUserType(this, typeName, GetXamlTypeByName(L"Windows.UI.Xaml.Controls.DataTemplateSelector"));
-        userType->KindOfType = ::Windows::UI::Xaml::Interop::TypeKind::Custom;
-        userType->Activator =
-            []() -> Platform::Object^ 
-            {
-                return ref new ::VapoRT::ConversationDataTemplateSelector(); 
-            };
-        userType->AddMemberName(L"FromMeTemplate");
-        userType->AddMemberName(L"ToMeTemplate");
-        userType->SetIsBindable();
-        return userType;
-    }
-
     if (typeName == L"VapoRT.SteamUserVM")
     {
         ::XamlTypeInfo::InfoProvider::XamlUserType^ userType = ref new ::XamlTypeInfo::InfoProvider::XamlUserType(this, typeName, GetXamlTypeByName(L"VapoRT.Common.BindableBase"));
@@ -512,6 +563,124 @@
 
 ::Windows::UI::Xaml::Markup::IXamlMember^ ::XamlTypeInfo::InfoProvider::XamlTypeInfoProvider::CreateXamlMember(::Platform::String^ longMemberName)
 {
+    if (longMemberName == L"VapoRT.Common.LayoutAwarePage.DefaultViewModel")
+    {
+        ::XamlTypeInfo::InfoProvider::XamlMember^ xamlMember = ref new ::XamlTypeInfo::InfoProvider::XamlMember(this, L"DefaultViewModel", L"Windows.Foundation.Collections.IObservableMap<String, Object>");
+        xamlMember->SetIsDependencyProperty();
+        xamlMember->Getter =
+            [](Object^ instance) -> Object^
+            {
+                auto that = (::VapoRT::Common::LayoutAwarePage^)instance;
+                return that->DefaultViewModel;
+            };
+
+        xamlMember->Setter =
+            [](Object^ instance, Object^ value) -> void
+            {
+                auto that = (::VapoRT::Common::LayoutAwarePage^)instance;
+                that->DefaultViewModel = (::Windows::Foundation::Collections::IObservableMap<::Platform::String^, ::Platform::Object^>^)value;
+            };
+        return xamlMember;
+    }
+
+    if (longMemberName == L"VapoRT.ConversationDataTemplateSelector.ToMeTemplate")
+    {
+        ::XamlTypeInfo::InfoProvider::XamlMember^ xamlMember = ref new ::XamlTypeInfo::InfoProvider::XamlMember(this, L"ToMeTemplate", L"Windows.UI.Xaml.DataTemplate");
+        xamlMember->Getter =
+            [](Object^ instance) -> Object^
+            {
+                auto that = (::VapoRT::ConversationDataTemplateSelector^)instance;
+                return that->ToMeTemplate;
+            };
+
+        xamlMember->Setter =
+            [](Object^ instance, Object^ value) -> void
+            {
+                auto that = (::VapoRT::ConversationDataTemplateSelector^)instance;
+                that->ToMeTemplate = (::Windows::UI::Xaml::DataTemplate^)value;
+            };
+        return xamlMember;
+    }
+
+    if (longMemberName == L"VapoRT.ConversationDataTemplateSelector.FromMeTemplate")
+    {
+        ::XamlTypeInfo::InfoProvider::XamlMember^ xamlMember = ref new ::XamlTypeInfo::InfoProvider::XamlMember(this, L"FromMeTemplate", L"Windows.UI.Xaml.DataTemplate");
+        xamlMember->Getter =
+            [](Object^ instance) -> Object^
+            {
+                auto that = (::VapoRT::ConversationDataTemplateSelector^)instance;
+                return that->FromMeTemplate;
+            };
+
+        xamlMember->Setter =
+            [](Object^ instance, Object^ value) -> void
+            {
+                auto that = (::VapoRT::ConversationDataTemplateSelector^)instance;
+                that->FromMeTemplate = (::Windows::UI::Xaml::DataTemplate^)value;
+            };
+        return xamlMember;
+    }
+
+    if (longMemberName == L"VapoRT.UpdateSourceHelper.IsEnabled")
+    {
+        ::XamlTypeInfo::InfoProvider::XamlMember^ xamlMember = ref new ::XamlTypeInfo::InfoProvider::XamlMember(this, L"IsEnabled", L"Boolean");
+        xamlMember->SetTargetTypeName(L"Windows.UI.Xaml.UIElement");
+        xamlMember->SetIsDependencyProperty();
+        xamlMember->SetIsAttachable();
+        xamlMember->Getter =
+            [](Object^ instance) -> Object^
+            {
+                return ::VapoRT::UpdateSourceHelper::GetIsEnabled((::Windows::UI::Xaml::UIElement^)instance);
+            };
+
+        xamlMember->Setter =
+            [](Object^ instance, Object^ value) -> void
+            {
+                ::VapoRT::UpdateSourceHelper::SetIsEnabled((::Windows::UI::Xaml::UIElement^)instance, (::Platform::Boolean)value);
+            };
+        return xamlMember;
+    }
+
+    if (longMemberName == L"VapoRT.UpdateSourceHelper.UpdateSourceText")
+    {
+        ::XamlTypeInfo::InfoProvider::XamlMember^ xamlMember = ref new ::XamlTypeInfo::InfoProvider::XamlMember(this, L"UpdateSourceText", L"String");
+        xamlMember->SetTargetTypeName(L"Windows.UI.Xaml.DependencyObject");
+        xamlMember->SetIsDependencyProperty();
+        xamlMember->SetIsAttachable();
+        xamlMember->Getter =
+            [](Object^ instance) -> Object^
+            {
+                return ::VapoRT::UpdateSourceHelper::GetUpdateSourceText((::Windows::UI::Xaml::DependencyObject^)instance);
+            };
+
+        xamlMember->Setter =
+            [](Object^ instance, Object^ value) -> void
+            {
+                ::VapoRT::UpdateSourceHelper::SetUpdateSourceText((::Windows::UI::Xaml::DependencyObject^)instance, (::Platform::String^)value);
+            };
+        return xamlMember;
+    }
+
+    if (longMemberName == L"VapoRT.EnterKeyToCommand.EnterKeyCommand")
+    {
+        ::XamlTypeInfo::InfoProvider::XamlMember^ xamlMember = ref new ::XamlTypeInfo::InfoProvider::XamlMember(this, L"EnterKeyCommand", L"Windows.UI.Xaml.Input.ICommand");
+        xamlMember->SetTargetTypeName(L"Windows.UI.Xaml.UIElement");
+        xamlMember->SetIsDependencyProperty();
+        xamlMember->SetIsAttachable();
+        xamlMember->Getter =
+            [](Object^ instance) -> Object^
+            {
+                return ::VapoRT::EnterKeyToCommand::GetEnterKeyCommand((::Windows::UI::Xaml::UIElement^)instance);
+            };
+
+        xamlMember->Setter =
+            [](Object^ instance, Object^ value) -> void
+            {
+                ::VapoRT::EnterKeyToCommand::SetEnterKeyCommand((::Windows::UI::Xaml::UIElement^)instance, (::Windows::UI::Xaml::Input::ICommand^)value);
+            };
+        return xamlMember;
+    }
+
     if (longMemberName == L"VapoRT.SteamDataDesignVM.Title")
     {
         ::XamlTypeInfo::InfoProvider::XamlMember^ xamlMember = ref new ::XamlTypeInfo::InfoProvider::XamlMember(this, L"Title", L"String");
@@ -1012,26 +1181,6 @@
         return xamlMember;
     }
 
-    if (longMemberName == L"VapoRT.Common.LayoutAwarePage.DefaultViewModel")
-    {
-        ::XamlTypeInfo::InfoProvider::XamlMember^ xamlMember = ref new ::XamlTypeInfo::InfoProvider::XamlMember(this, L"DefaultViewModel", L"Windows.Foundation.Collections.IObservableMap<String, Object>");
-        xamlMember->SetIsDependencyProperty();
-        xamlMember->Getter =
-            [](Object^ instance) -> Object^
-            {
-                auto that = (::VapoRT::Common::LayoutAwarePage^)instance;
-                return that->DefaultViewModel;
-            };
-
-        xamlMember->Setter =
-            [](Object^ instance, Object^ value) -> void
-            {
-                auto that = (::VapoRT::Common::LayoutAwarePage^)instance;
-                that->DefaultViewModel = (::Windows::Foundation::Collections::IObservableMap<::Platform::String^, ::Platform::Object^>^)value;
-            };
-        return xamlMember;
-    }
-
     if (longMemberName == L"VapoRT.Data.SampleDataCommon.Description")
     {
         ::XamlTypeInfo::InfoProvider::XamlMember^ xamlMember = ref new ::XamlTypeInfo::InfoProvider::XamlMember(this, L"Description", L"String");
@@ -1249,44 +1398,6 @@
             };
 
         xamlMember->SetIsReadOnly();
-        return xamlMember;
-    }
-
-    if (longMemberName == L"VapoRT.ConversationDataTemplateSelector.FromMeTemplate")
-    {
-        ::XamlTypeInfo::InfoProvider::XamlMember^ xamlMember = ref new ::XamlTypeInfo::InfoProvider::XamlMember(this, L"FromMeTemplate", L"Windows.UI.Xaml.DataTemplate");
-        xamlMember->Getter =
-            [](Object^ instance) -> Object^
-            {
-                auto that = (::VapoRT::ConversationDataTemplateSelector^)instance;
-                return that->FromMeTemplate;
-            };
-
-        xamlMember->Setter =
-            [](Object^ instance, Object^ value) -> void
-            {
-                auto that = (::VapoRT::ConversationDataTemplateSelector^)instance;
-                that->FromMeTemplate = (::Windows::UI::Xaml::DataTemplate^)value;
-            };
-        return xamlMember;
-    }
-
-    if (longMemberName == L"VapoRT.ConversationDataTemplateSelector.ToMeTemplate")
-    {
-        ::XamlTypeInfo::InfoProvider::XamlMember^ xamlMember = ref new ::XamlTypeInfo::InfoProvider::XamlMember(this, L"ToMeTemplate", L"Windows.UI.Xaml.DataTemplate");
-        xamlMember->Getter =
-            [](Object^ instance) -> Object^
-            {
-                auto that = (::VapoRT::ConversationDataTemplateSelector^)instance;
-                return that->ToMeTemplate;
-            };
-
-        xamlMember->Setter =
-            [](Object^ instance, Object^ value) -> void
-            {
-                auto that = (::VapoRT::ConversationDataTemplateSelector^)instance;
-                that->ToMeTemplate = (::Windows::UI::Xaml::DataTemplate^)value;
-            };
         return xamlMember;
     }
 

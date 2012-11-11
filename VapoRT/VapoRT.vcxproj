@@ -139,7 +139,12 @@
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="ChatPage.xaml.h">
+      <DependentUpon>ChatPage.xaml</DependentUpon>
+    </ClInclude>
     <ClInclude Include="Common\DelegateCommand.h" />
+    <ClInclude Include="Common\EnterKeyToCommand.h" />
+    <ClInclude Include="Common\UpdateSourceHelper.h" />
     <ClInclude Include="LoginPage.xaml.h">
       <DependentUpon>LoginPage.xaml</DependentUpon>
     </ClInclude>
@@ -166,6 +171,9 @@
     <ApplicationDefinition Include="App.xaml">
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="ChatPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Common\StandardStyles.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -202,13 +210,18 @@
     <ClCompile Include="App.xaml.cpp">
       <DependentUpon>App.xaml</DependentUpon>
     </ClCompile>
+    <ClCompile Include="ChatPage.xaml.cpp">
+      <DependentUpon>ChatPage.xaml</DependentUpon>
+    </ClCompile>
     <ClCompile Include="Common\BindableBase.cpp" />
     <ClCompile Include="Common\BooleanToVisibilityConverter.cpp" />
     <ClCompile Include="Common\BooleanNegationConverter.cpp" />
     <ClCompile Include="Common\DelegateCommand.cpp" />
+    <ClCompile Include="Common\EnterKeyToCommand.cpp" />
     <ClCompile Include="Common\LayoutAwarePage.cpp" />
     <ClCompile Include="Common\RichTextColumns.cpp" />
     <ClCompile Include="Common\SuspensionManager.cpp" />
+    <ClCompile Include="Common\UpdateSourceHelper.cpp" />
     <ClCompile Include="ItemsPage.xaml.cpp">
       <DependentUpon>ItemsPage.xaml</DependentUpon>
     </ClCompile>

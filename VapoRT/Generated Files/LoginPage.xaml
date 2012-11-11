@@ -8,7 +8,6 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    d:DataContext="{d:DesignData Source=DesignTimeData_Login.xaml}"
     >
 
     <common:LayoutAwarePage.Resources>
@@ -26,7 +25,8 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <Grid Background="{StaticResource ApplicationPageBackgroundThemeBrush}" VerticalAlignment="Center" HorizontalAlignment="Center" >
+        <Grid Background="{StaticResource ApplicationPageBackgroundThemeBrush}" VerticalAlignment="Center" HorizontalAlignment="Center"
+              d:DataContext="{d:DesignData Source=DesignTimeData_Login.xaml}" >
             <!--Background="{StaticResource ApplicationPageBackgroundThemeBrush}"-->
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>

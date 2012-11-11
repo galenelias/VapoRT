@@ -436,8 +436,8 @@ namespace SteamAPI
 				user->UpdateStatus(message[L"persona_state"].as_integer());
 
 				// Fake message for testing
-				std::wstring wstMessage = FormatWstr(L"%s updated persona state -> %d", message[L"persona_name"].as_string().c_str(), message[L"persona_state"].as_integer());
-				user->SyncMessageFromNetwork(wstMessage.c_str(), false, timestamp);
+				//std::wstring wstMessage = FormatWstr(L"%s updated persona state -> %d", message[L"persona_name"].as_string().c_str(), message[L"persona_state"].as_integer());
+				//user->SyncMessageFromNetwork(wstMessage.c_str(), false, timestamp);
 			}
 			else if (messageType == L"typing")
 			{

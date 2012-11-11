@@ -5,12 +5,15 @@
 
 #include "pch.h"
 #include "LoginPage.xaml.h"
+#include "ChatPage.xaml.h"
 
 using namespace VapoRT;
 
 using namespace Platform;
+
 using namespace Windows::Foundation;
 using namespace Windows::Foundation::Collections;
+using namespace Windows::UI::Core;
 using namespace Windows::UI::Xaml;
 using namespace Windows::UI::Xaml::Controls;
 using namespace Windows::UI::Xaml::Controls::Primitives;
@@ -30,16 +33,16 @@ LoginPage::LoginPage()
 
 	this->DataContext = connection;
 
-	//Platform::WeakReference wrThis(this);
-	//auto dispatcher = Windows::UI::Core::CoreWindow::GetForCurrentThread()->Dispatcher;
+	Platform::WeakReference wrThis(this);
+	auto dispatcher = Windows::UI::Core::CoreWindow::GetForCurrentThread()->Dispatcher;
 
-	//m_autoConnectionChangeListener.AddListener(&steamConnection->GetConnectionChangeEvent(), [wrThis, dispatcher](SteamAPI::ISteamConnection * /*sender*/, SteamAPI::EConnectionStatus status) {
-	//	dispatcher->RunAsync(CoreDispatcherPriority::Normal, ref new DispatchedHandler([wrThis]() {
-	//		auto page = wrThis.Resolve<SteamLoginPage>();
-	//		if (page)
-	//			page->Frame->Navigate(Windows::UI::Xaml::Interop::TypeName(MainPage::typeid));
-	//	}));
-	//});
+	m_autoConnectionChangeListener.AddListener(&steamConnection->GetConnectionChangeEvent(), [wrThis, dispatcher](SteamAPI::ISteamConnection * /*sender*/, SteamAPI::EConnectionStatus status) {
+		dispatcher->RunAsync(CoreDispatcherPriority::Normal, ref new DispatchedHandler([wrThis]() {
+			auto page = wrThis.Resolve<LoginPage>();
+			if (page)
+				page->Frame->Navigate(Windows::UI::Xaml::Interop::TypeName(ChatPage::typeid));
+		}));
+	});
 
 }
 

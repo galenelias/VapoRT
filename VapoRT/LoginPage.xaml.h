@@ -20,6 +20,9 @@ namespace VapoRT
 	public:
 		LoginPage();
 
+	private:
+		AutoEventListener<SteamAPI::ISteamConnection, SteamAPI::EConnectionStatus> m_autoConnectionChangeListener;
+
 	protected:
 		virtual void LoadState(Platform::Object^ navigationParameter,
 			Windows::Foundation::Collections::IMap<Platform::String^, Platform::Object^>^ pageState) override;
