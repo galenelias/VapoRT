@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "EnterKeyToCommand.h"
+#include "EventRegistrationTokenMap.h"
 
+using namespace Platform;
 using namespace Windows::Foundation;
 using namespace Windows::UI::Xaml;
 using namespace Windows::UI::Xaml::Controls;
@@ -12,21 +14,36 @@ namespace VapoRT
 	TypeName EnterKeyToCommand::commandType = ICommand::typeid;
 	TypeName EnterKeyToCommand::ownerType = {EnterKeyToCommand::typeid->FullName, TypeKind::Metadata };
 
-	PropertyMetadata^ EnterKeyToCommand::propertyMetadata = ref new PropertyMetadata(false, ref new PropertyChangedCallback(&EnterKeyToCommand::RegisterForKeyDown));
+	PropertyMetadata^ EnterKeyToCommand::commandPropertyMetadata = ref new PropertyMetadata(false, ref new PropertyChangedCallback(&EnterKeyToCommand::RegisterForKeyDown));
 
-	DependencyProperty^ EnterKeyToCommand::_EnterKeyCommandProperty = DependencyProperty::RegisterAttached("EnterKeyCommand", commandType, ownerType, propertyMetadata);
+	DependencyProperty^ EnterKeyToCommand::_EnterKeyCommandProperty = DependencyProperty::RegisterAttached("EnterKeyCommand", commandType, ownerType, commandPropertyMetadata);
 
 
 	void EnterKeyToCommand::RegisterForKeyDown(Windows::UI::Xaml::DependencyObject^ d, Windows::UI::Xaml::DependencyPropertyChangedEventArgs^ e)
 	{
 		TextBox^ tb = safe_cast<TextBox^>(d);
+		String^ eventName = L"EnterKeyToCommand_KeyDown";
+
 		if (e->NewValue)
 		{
-			tb->KeyDown += ref new KeyEventHandler(EnterKeyToCommand::KeyDownEvent);
+			EventRegistrationToken tokenIgnored;
+			if (!LookupEventToken(d, eventName, false, &tokenIgnored))
+			{
+				EventRegistrationToken token = tb->KeyDown += ref new KeyEventHandler(EnterKeyToCommand::KeyDownEvent);
+				RecordEventToken(d, eventName, token);
+			}
+		}
+		else
+		{
+			EventRegistrationToken token;
+			if (LookupEventToken(d, eventName, true, &token))
+			{
+				tb->KeyDown -= token;
+			}
 		}
 	}
 
-	void EnterKeyToCommand::KeyDownEvent(Platform::Object^ sender, Windows::UI::Xaml::Input::KeyRoutedEventArgs ^ e)
+	void EnterKeyToCommand::KeyDownEvent(Object^ sender, Windows::UI::Xaml::Input::KeyRoutedEventArgs ^ e)
 	{
 		if (e->Key == Windows::System::VirtualKey::Enter && e->KeyStatus.RepeatCount != 0)
 		{

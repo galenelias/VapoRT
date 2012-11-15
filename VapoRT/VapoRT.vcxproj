@@ -144,6 +144,7 @@
     </ClInclude>
     <ClInclude Include="Common\DelegateCommand.h" />
     <ClInclude Include="Common\EnterKeyToCommand.h" />
+    <ClInclude Include="Common\EventRegistrationTokenMap.h" />
     <ClInclude Include="Common\UpdateSourceHelper.h" />
     <ClInclude Include="LoginPage.xaml.h">
       <DependentUpon>LoginPage.xaml</DependentUpon>
@@ -218,6 +219,7 @@
     <ClCompile Include="Common\BooleanNegationConverter.cpp" />
     <ClCompile Include="Common\DelegateCommand.cpp" />
     <ClCompile Include="Common\EnterKeyToCommand.cpp" />
+    <ClCompile Include="Common\EventRegistrationTokenMap.cpp" />
     <ClCompile Include="Common\LayoutAwarePage.cpp" />
     <ClCompile Include="Common\RichTextColumns.cpp" />
     <ClCompile Include="Common\SuspensionManager.cpp" />

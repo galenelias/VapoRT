@@ -7,7 +7,7 @@ namespace VapoRT
 	private:
 		static Windows::UI::Xaml::Interop::TypeName commandType;
 		static Windows::UI::Xaml::Interop::TypeName ownerType;
-		static Windows::UI::Xaml::PropertyMetadata^ propertyMetadata;
+		static Windows::UI::Xaml::PropertyMetadata^ commandPropertyMetadata;
 		static Windows::UI::Xaml::DependencyProperty^ _EnterKeyCommandProperty;
 
 	public:
@@ -27,8 +27,8 @@ namespace VapoRT
 		{
 			element->SetValue(_EnterKeyCommandProperty, value);
 		};
-
 		static void RegisterForKeyDown(Windows::UI::Xaml::DependencyObject^ d, Windows::UI::Xaml::DependencyPropertyChangedEventArgs^ e);
 		static void KeyDownEvent(Platform::Object^ sender, Windows::UI::Xaml::Input::KeyRoutedEventArgs ^ e);
+
 	};
 }

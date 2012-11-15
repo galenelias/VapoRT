@@ -107,6 +107,10 @@
     <ClCompile Include="Common\UpdateSourceHelper.cpp">
       <Filter>Common</Filter>
     </ClCompile>
+    <ClCompile Include="ChatPage.xaml.cpp" />
+    <ClCompile Include="Common\EventRegistrationTokenMap.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -124,6 +128,10 @@
       <Filter>Common</Filter>
     </ClInclude>
     <ClInclude Include="Common\UpdateSourceHelper.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="ChatPage.xaml.h" />
+    <ClInclude Include="Common\EventRegistrationTokenMap.h">
       <Filter>Common</Filter>
     </ClInclude>
   </ItemGroup>
