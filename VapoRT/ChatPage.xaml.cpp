@@ -217,3 +217,80 @@ void VapoRT::ChatPage::chatPageLoaded(Platform::Object^ sender, Windows::UI::Xam
 	}, task_continuation_context::use_current());
 
 }
+
+void RecurseXamlElements(DependencyObject^ obj, std::vector<DependencyObject^> & allElements)
+{
+	int childCount = Windows::UI::Xaml::Media::VisualTreeHelper::GetChildrenCount(obj);
+	for (int i = 0; i != childCount; ++i)
+	{
+		allElements.push_back(Windows::UI::Xaml::Media::VisualTreeHelper::GetChild(obj, i));
+		RecurseXamlElements(allElements.back(), allElements);
+	}
+}
+
+template <class T>
+T FindXamlElement(DependencyObject^ obj)
+{
+	std::vector<DependencyObject^> rgElements;
+	rgElements.push_back(std::move(obj));
+
+	while (!rgElements.empty())
+	{
+		DependencyObject^ cur = rgElements.back();
+		rgElements.erase(rgElements.end()-1);
+		T t = dynamic_cast<T>(cur);
+		if (t)
+			return t;
+		else
+		{
+			int childCount = Windows::UI::Xaml::Media::VisualTreeHelper::GetChildrenCount(cur);
+			for (int i = 0; i != childCount; ++i)
+			{
+				auto ctrl = Windows::UI::Xaml::Media::VisualTreeHelper::GetChild(cur, i);
+				rgElements.push_back(std::move(ctrl));
+			}
+		}
+	}
+	return nullptr;
+}
+
+void ScrollableHeightChanged(Windows::UI::Xaml::DependencyObject^ d, Windows::UI::Xaml::DependencyPropertyChangedEventArgs^ e)
+{
+	if (e->NewValue)
+	{
+		// TODO: Only scroll to bottom when list was already scrolled to bottom
+		//   http://mikaelkoskinen.net/post/WinRT-XAML-Automatically-Scrolling-ListView-to-Bottom-and-Detecting-When-ListView-is-Scrolled.aspx
+		ScrollViewer^ scrollViewer = safe_cast<ScrollViewer^>(d);
+		scrollViewer->ScrollToVerticalOffset(scrollViewer->ScrollableHeight); //Scroll to bottom
+	}
+	else
+	{
+		//assert(false);
+	}
+}
+
+
+void RegisterForScrollableHeightChangeNotification(FrameworkElement^ element)
+{
+	Windows::UI::Xaml::Interop::TypeName objectType = Object::typeid;
+	Windows::UI::Xaml::Interop::TypeName scrollViewerOwnerType = {ScrollViewer::typeid->FullName, Windows::UI::Xaml::Interop::TypeKind::Metadata };
+	Windows::UI::Xaml::PropertyMetadata^ sourcePropertyMetadata = ref new PropertyMetadata(false, ref new Windows::UI::Xaml::PropertyChangedCallback(&ScrollableHeightChanged));
+
+	static DependencyProperty^ _ScrollableHeightProperty = DependencyProperty::RegisterAttached("ScrollableHeightAttached", objectType, scrollViewerOwnerType, sourcePropertyMetadata);
+
+	Binding^ binding = ref new Binding();
+	binding->Source = element;
+	binding->Path = ref new PropertyPath(L"ScrollableHeight");
+	element->SetBinding(_ScrollableHeightProperty, binding);
+}
+
+
+void VapoRT::ChatPage::ConversationListView_Loaded_1(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
+{
+	std::vector<DependencyObject^> rgAllElements;
+	//RecurseXamlElements(ConversationListView, rgAllElements);
+
+	ScrollViewer^ scrollViewer = FindXamlElement<ScrollViewer^>(ConversationListView);
+	RegisterForScrollableHeightChangeNotification(scrollViewer);
+
+}

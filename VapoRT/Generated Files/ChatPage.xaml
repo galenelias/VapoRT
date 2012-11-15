@@ -78,7 +78,7 @@
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Button x:ConnectionId='2'
+            <Button x:ConnectionId='3'
                 x:Name="backButton"
                               
                 IsEnabled="{Binding DefaultViewModel.CanGoBack, ElementName=pageRoot}"
@@ -149,8 +149,8 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <TextBlock FontSize="24" Text="{Binding PersonaName}" />
-            <ItemsControl x:Name="ConversationListView" Grid.Row="1" ItemsSource="{Binding ConversationHistory}" ItemTemplateSelector="{StaticResource convSelector}"  HorizontalAlignment="Stretch"  Margin="10,0,0,10"
-                              
+            <ItemsControl x:ConnectionId='2' x:Name="ConversationListView" Grid.Row="1" ItemsSource="{Binding ConversationHistory}" ItemTemplateSelector="{StaticResource convSelector}"  HorizontalAlignment="Stretch"  Margin="10,0,0,10"
+                                                                    
                               ScrollViewer.VerticalScrollMode="Enabled" ScrollViewer.VerticalScrollBarVisibility="Auto">  <!--Loaded="ConversationListView_Loaded_1"-->
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
@@ -175,7 +175,7 @@
                     VerticalAlignment="Center"
                     local:UpdateSourceHelper.IsEnabled = "True"
                     local:UpdateSourceHelper.UpdateSourceText = "{Binding Path=CurrentMessage, Mode=TwoWay}"
-                    local:EnterKeyToCommand.EnterKeyCommand = "{Binding SendCurrentMessage, Mode=OneTime}"
+                    local:EnterKeyToCommand.EnterKeyCommand = "{Binding SendCurrentMessage}"
                              />
                 <!--"
                 -->

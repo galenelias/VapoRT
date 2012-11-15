@@ -38,5 +38,6 @@ namespace VapoRT
 		bool UsingLogicalPageNavigation();
 		bool UsingLogicalPageNavigation(Windows::UI::ViewManagement::ApplicationViewState viewState);
 		void chatPageLoaded(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
+		void ConversationListView_Loaded_1(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
 	};
 }
