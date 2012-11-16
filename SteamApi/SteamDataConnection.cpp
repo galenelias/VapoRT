@@ -87,7 +87,7 @@ namespace SteamAPI
 	{
 		http::http_request request(http::methods::POST);
 		SetSteamAPIHeaders(request.headers());
-		request.set_body_utf8(stPostData);
+		request.set_body(stPostData);
 
 		return request;
 	}

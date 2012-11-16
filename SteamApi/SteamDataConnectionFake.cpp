@@ -112,7 +112,7 @@ namespace SteamAPI
 				WaitForSingleObjectEx(GetCurrentThread(), msDelay, TRUE);
 
 			http::http_response httpResponse(http::status_codes::OK);
-			httpResponse.set_text(wstResponse, HTTP_JSON_CONTENT_TYPE);
+			httpResponse.set_body(wstResponse, HTTP_JSON_CONTENT_TYPE);
 			return httpResponse;
 		});
 
