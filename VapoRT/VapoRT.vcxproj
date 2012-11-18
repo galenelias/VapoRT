@@ -145,7 +145,9 @@
     <ClInclude Include="Common\DelegateCommand.h" />
     <ClInclude Include="Common\EnterKeyToCommand.h" />
     <ClInclude Include="Common\EventRegistrationTokenMap.h" />
+    <ClInclude Include="Common\StayScrolledToBottom.h" />
     <ClInclude Include="Common\UpdateSourceHelper.h" />
+    <ClInclude Include="Common\XamlHelpers.h" />
     <ClInclude Include="LoginPage.xaml.h">
       <DependentUpon>LoginPage.xaml</DependentUpon>
     </ClInclude>
@@ -222,6 +224,7 @@
     <ClCompile Include="Common\EventRegistrationTokenMap.cpp" />
     <ClCompile Include="Common\LayoutAwarePage.cpp" />
     <ClCompile Include="Common\RichTextColumns.cpp" />
+    <ClCompile Include="Common\StayScrolledToBottom.cpp" />
     <ClCompile Include="Common\SuspensionManager.cpp" />
     <ClCompile Include="Common\UpdateSourceHelper.cpp" />
     <ClCompile Include="ItemsPage.xaml.cpp">
@@ -252,6 +255,9 @@
     <ProjectReference Include="..\SteamApi\SteamApi.vcxproj">
       <Project>{8a4b7f0f-df35-4b2a-b2b0-1ef5c6dbe47f}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="TODO.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

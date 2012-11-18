@@ -8,6 +8,7 @@
 #include "Common\LayoutAwarePage.h" // Required by generated header
 #include "Common\EnterKeyToCommand.h"
 #include "Common\UpdateSourceHelper.h"
+#include "Common\StayScrolledToBottom.h"
 #include "ChatPage.g.h"
 #include "ViewModel\SteamViewModel.h"
 
@@ -38,6 +39,5 @@ namespace VapoRT
 		bool UsingLogicalPageNavigation();
 		bool UsingLogicalPageNavigation(Windows::UI::ViewManagement::ApplicationViewState viewState);
 		void chatPageLoaded(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
-		void ConversationListView_Loaded_1(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e);
 	};
 }

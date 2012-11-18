@@ -1,0 +1,6 @@
+
+Future work items:
+
+  - Extend test connection to generate constant, rich notifications
+  - Extend test connection to send/reply to IM's
+  - Complete scroll to bottom

@@ -181,6 +181,19 @@
         return userType;
     }
 
+    if (typeName == L"VapoRT.StayScrolledToBottom")
+    {
+        ::XamlTypeInfo::InfoProvider::XamlUserType^ userType = ref new ::XamlTypeInfo::InfoProvider::XamlUserType(this, typeName, GetXamlTypeByName(L"Windows.UI.Xaml.DependencyObject"));
+        userType->KindOfType = ::Windows::UI::Xaml::Interop::TypeKind::Custom;
+        userType->Activator =
+            []() -> Platform::Object^ 
+            {
+                return ref new ::VapoRT::StayScrolledToBottom(); 
+            };
+        userType->AddMemberName(L"IsEnabled");
+        return userType;
+    }
+
     if (typeName == L"VapoRT.UpdateSourceHelper")
     {
         ::XamlTypeInfo::InfoProvider::XamlUserType^ userType = ref new ::XamlTypeInfo::InfoProvider::XamlUserType(this, typeName, GetXamlTypeByName(L"Windows.UI.Xaml.DependencyObject"));
@@ -617,6 +630,26 @@
             {
                 auto that = (::VapoRT::ConversationDataTemplateSelector^)instance;
                 that->FromMeTemplate = (::Windows::UI::Xaml::DataTemplate^)value;
+            };
+        return xamlMember;
+    }
+
+    if (longMemberName == L"VapoRT.StayScrolledToBottom.IsEnabled")
+    {
+        ::XamlTypeInfo::InfoProvider::XamlMember^ xamlMember = ref new ::XamlTypeInfo::InfoProvider::XamlMember(this, L"IsEnabled", L"Boolean");
+        xamlMember->SetTargetTypeName(L"Windows.UI.Xaml.UIElement");
+        xamlMember->SetIsDependencyProperty();
+        xamlMember->SetIsAttachable();
+        xamlMember->Getter =
+            [](Object^ instance) -> Object^
+            {
+                return ::VapoRT::StayScrolledToBottom::GetIsEnabled((::Windows::UI::Xaml::UIElement^)instance);
+            };
+
+        xamlMember->Setter =
+            [](Object^ instance, Object^ value) -> void
+            {
+                ::VapoRT::StayScrolledToBottom::SetIsEnabled((::Windows::UI::Xaml::UIElement^)instance, (::Platform::Boolean)value);
             };
         return xamlMember;
     }

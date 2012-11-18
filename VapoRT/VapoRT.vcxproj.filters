@@ -111,6 +111,9 @@
     <ClCompile Include="Common\EventRegistrationTokenMap.cpp">
       <Filter>Common</Filter>
     </ClCompile>
+    <ClCompile Include="Common\StayScrolledToBottom.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -132,6 +135,12 @@
     </ClInclude>
     <ClInclude Include="ChatPage.xaml.h" />
     <ClInclude Include="Common\EventRegistrationTokenMap.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\StayScrolledToBottom.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\XamlHelpers.h">
       <Filter>Common</Filter>
     </ClInclude>
   </ItemGroup>
@@ -170,5 +179,8 @@
     <ApplicationDefinition Include="App.xaml">
       <Filter>XAML</Filter>
     </ApplicationDefinition>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="TODO.txt" />
   </ItemGroup>
 </Project>

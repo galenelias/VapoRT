@@ -283,14 +283,3 @@ void RegisterForScrollableHeightChangeNotification(FrameworkElement^ element)
 	binding->Path = ref new PropertyPath(L"ScrollableHeight");
 	element->SetBinding(_ScrollableHeightProperty, binding);
 }
-
-
-void VapoRT::ChatPage::ConversationListView_Loaded_1(Platform::Object^ sender, Windows::UI::Xaml::RoutedEventArgs^ e)
-{
-	std::vector<DependencyObject^> rgAllElements;
-	//RecurseXamlElements(ConversationListView, rgAllElements);
-
-	ScrollViewer^ scrollViewer = FindXamlElement<ScrollViewer^>(ConversationListView);
-	RegisterForScrollableHeightChangeNotification(scrollViewer);
-
-}
