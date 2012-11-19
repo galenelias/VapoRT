@@ -52,7 +52,8 @@ namespace VapoRT
 			if (dependencyObject)
 			{
 				ICommand^ cmd = (ICommand^)dependencyObject->GetValue(EnterKeyToCommand::EnterKeyCommandProperty);
-				cmd->Execute(sender);
+				if (cmd->CanExecute(nullptr))
+					cmd->Execute(sender);
 			}
 		}
 	}
