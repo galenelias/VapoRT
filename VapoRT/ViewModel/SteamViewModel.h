@@ -144,6 +144,8 @@ namespace VapoRT
     [Windows::UI::Xaml::Data::Bindable]
     public ref class SteamUserVM sealed : public Common::BindableBase
     {
+	private:
+		Platform::String^ _CurrentMessage;
     public:
         property Platform::String^ SteamID
 		{	Platform::String^ get() { return ref new Platform::String(m_model->GetSteamID()); } }
@@ -184,9 +186,22 @@ namespace VapoRT
 			Windows::UI::Xaml::Interop::IBindableObservableVector^ get();
 		}
 
+
+		property Platform::String^ CurrentMessage
+		{
+			Platform::String^ get() { return _CurrentMessage; }
+			void set(Platform::String^ value)
+			{
+				_CurrentMessage = value;
+				OnPropertyChanged(L"CurrentMessage");
+
+				// Ability to send current message depends on whether the Current Message is empty or not - must manually raise event to signal a change in CanExecute state
+				SendCurrentMessage->RaiseCanExecuteChanged();  
+			}
+		}
+
 		// Send message
 		property Common::DelegateCommand^ SendCurrentMessage;
-		MAKE_PROP(Platform::String^, CurrentMessage);
 		MAKE_PROP(bool, SendingMessage);
 
 	internal:
@@ -197,6 +212,8 @@ namespace VapoRT
 		void SendConversationMessage(Platform::String^ message);
 
 	private:
+		bool CanSendMessage();
+
 		SteamAPI::SteamUserPtr m_model;
 		Windows::UI::Xaml::Interop::IBindableObservableVector^ _ConversationHistory;
 		AutoEventListener<SteamAPI::ISteamUser, int> m_StatusChangedEventListener;
@@ -261,11 +278,12 @@ namespace VapoRT
 
 		property Platform::String^ Title;
 		property Windows::Foundation::Collections::IVector<SteamUserDesignVM^>^ Items;
+		property SteamUserDesignVM^ SelectedItem;
 	};
 
 
 	[Windows::UI::Xaml::Data::Bindable]
-	public ref class SteamDataVM sealed
+	public ref class SteamDataVM sealed : public Common::BindableBase
 	{
 	public:
 		SteamDataVM(void)
@@ -277,6 +295,9 @@ namespace VapoRT
 		{
 			Windows::Foundation::Collections::IVector<SteamUserVM^>^ get() {return m_items; }
 		}
+
+		MAKE_PROP(SteamUserVM^, SelectedItem);
+		//property SteamUserVM^ SelectedItem;
 
 	internal:
 		void SortByStatus();

@@ -228,7 +228,8 @@ SteamUserVM::SteamUserVM(SteamAPI::SteamUserPtr user)
 	: m_model(user)
 {
 	SendCurrentMessage = ref new DelegateCommand(
-		ref new ExecuteDelegate([this](Object^) { SendConversationMessage(CurrentMessage); })
+		ref new ExecuteDelegate([this](Object^) { SendConversationMessage(CurrentMessage); CurrentMessage = nullptr; }),
+		ref new CanExecuteDelegate([this](Object^) { return CanSendMessage(); })
 		);
 
 	Platform::WeakReference wrThis(this);
@@ -253,15 +254,25 @@ Windows::UI::Xaml::Interop::IBindableObservableVector^ SteamUserVM::Conversation
 	return _ConversationHistory;
 }
 
+bool SteamUserVM::CanSendMessage()
+{
+	return !CurrentMessage->IsEmpty();
+}
+
+
 void SteamUserVM::SendConversationMessage(String^ message)
 {
-	SendingMessage = true;
+	//SendingMessage = true;
 	auto sendTask = m_model->SendMessage(begin(message));
+
+	//SendCurrentMessage->RaiseCanExecuteChanged();
+	//SendCurrentMessage->CanExecuteChanged(this, nullptr);
+
 
 	sendTask.then([this](bool success)
 	{
-		CurrentMessage = L"";
-		SendingMessage = false;
+		//CurrentMessage = L"";
+		//SendingMessage = false;
 	}, concurrency::task_continuation_context::use_current());
 }
 
@@ -350,6 +361,7 @@ void SteamDataVM::AddFriend(SteamAPI::SteamUserPtr & user)
 
 void SteamDataVM::SortByStatus()
 {
+	SteamUserVM^ savedSelectedItem = SelectedItem;
 	std::sort(begin(Items), end(Items), [](SteamUserVM^ steamUser1, SteamUserVM^ steamUser2) {
 		if (steamUser1->OnlineStatus != steamUser2->OnlineStatus)
 		{
@@ -373,6 +385,9 @@ void SteamDataVM::SortByStatus()
 			return wcscmp(steamUser1->PersonaName->Begin(), steamUser2->PersonaName->Begin()) < 0;
 		}
 	});
+
+	SelectedItem = savedSelectedItem;
+	//OnPropertyChanged(L"SelectedItem");
 }
 
 SteamUserVM^ CreateUserVMFromUser(SteamAPI::SteamUserPtr & user)
