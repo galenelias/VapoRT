@@ -23,6 +23,11 @@ namespace VapoRT
 		public:
 			virtual event Windows::Foundation::EventHandler<Object^>^ CanExecuteChanged;
 
+			void RaiseCanExecuteChanged()
+			{
+				CanExecuteChanged(this, nullptr);
+			}
+
 			virtual void Execute(Object^ parameter)
 			{
 				_executeDelegate(parameter);
