@@ -86,7 +86,8 @@
             <TextBlock x:Name="pageTitle" Grid.Column="1" Text="Friends" Style="{StaticResource PageHeaderTextStyle}"/>
         </Grid>
 
-        <ListView x:Name="ItemListView" Grid.Row="1" Grid.Column="0" ItemsSource="{Binding Path=Items}"  Margin="10,0,0,10">  <!--SelectionChanged="ItemListView_SelectionChanged_1"-->
+        <ListView x:Name="ItemListView" Grid.Row="1" Grid.Column="0" ItemsSource="{Binding Path=Items}" Margin="10,0,0,10"
+                  SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <Grid Name="Grid2" >
@@ -149,9 +150,8 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <TextBlock FontSize="24" Text="{Binding PersonaName}" />
-            <ItemsControl x:Name="ConversationListView" Grid.Row="1" ItemsSource="{Binding ConversationHistory}" ItemTemplateSelector="{StaticResource convSelector}"  HorizontalAlignment="Stretch"  Margin="10,0,0,10"
-                                local:StayScrolledToBottom.IsEnabled="True"
-                              ScrollViewer.VerticalScrollMode="Enabled" ScrollViewer.VerticalScrollBarVisibility="Auto">  <!--Loaded="ConversationListView_Loaded_1"-->
+            <ItemsControl x:Name="ConversationListView" Grid.Row="1" ItemsSource="{Binding ConversationHistory}" ItemTemplateSelector="{StaticResource convSelector}" HorizontalAlignment="Stretch"  Margin="10,0,0,10"
+                          local:StayScrolledToBottom.IsEnabled="True" ScrollViewer.VerticalScrollMode="Enabled" ScrollViewer.VerticalScrollBarVisibility="Auto">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <VirtualizingStackPanel Orientation="Vertical" VirtualizationMode="Recycling" />
@@ -175,13 +175,8 @@
                     VerticalAlignment="Center"
                     local:UpdateSourceHelper.IsEnabled = "True"
                     local:UpdateSourceHelper.UpdateSourceText = "{Binding Path=CurrentMessage, Mode=TwoWay}"
-                    local:EnterKeyToCommand.EnterKeyCommand = "{Binding SendCurrentMessage}"
-                             />
-                <!--"
-                -->
+                    local:EnterKeyToCommand.EnterKeyCommand = "{Binding SendCurrentMessage}" />
 
-                <!--local:UpdateSourceHelper.IsEnabled="True"
-                    local:UpdateSourceHelper.UpdateSourceText="{Binding CurrentMessage, Mode=TwoWay}"-->
                 <Button Grid.Column="1" Content="Send" Command="{Binding SendCurrentMessage}"  HorizontalAlignment="Right" Margin="2,2,2,2" />
                 <ProgressRing Grid.Column="2" Width="40" IsActive="{Binding SendingMessage}"/>
             </Grid>

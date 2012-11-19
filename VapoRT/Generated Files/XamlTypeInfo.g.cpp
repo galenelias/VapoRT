@@ -244,6 +244,7 @@
             };
         userType->AddMemberName(L"Title");
         userType->AddMemberName(L"Items");
+        userType->AddMemberName(L"SelectedItem");
         userType->SetIsBindable();
         return userType;
     }
@@ -519,8 +520,8 @@
         ::XamlTypeInfo::InfoProvider::XamlUserType^ userType = ref new ::XamlTypeInfo::InfoProvider::XamlUserType(this, typeName, GetXamlTypeByName(L"VapoRT.Common.BindableBase"));
         userType->KindOfType = ::Windows::UI::Xaml::Interop::TypeKind::Custom;
         userType->AddMemberName(L"SendingMessage");
-        userType->AddMemberName(L"CurrentMessage");
         userType->AddMemberName(L"SendCurrentMessage");
+        userType->AddMemberName(L"CurrentMessage");
         userType->AddMemberName(L"ConversationHistory");
         userType->AddMemberName(L"StatusColor");
         userType->AddMemberName(L"InGame");
@@ -545,13 +546,14 @@
 
     if (typeName == L"VapoRT.SteamDataVM")
     {
-        ::XamlTypeInfo::InfoProvider::XamlUserType^ userType = ref new ::XamlTypeInfo::InfoProvider::XamlUserType(this, typeName, GetXamlTypeByName(L"Object"));
+        ::XamlTypeInfo::InfoProvider::XamlUserType^ userType = ref new ::XamlTypeInfo::InfoProvider::XamlUserType(this, typeName, GetXamlTypeByName(L"VapoRT.Common.BindableBase"));
         userType->KindOfType = ::Windows::UI::Xaml::Interop::TypeKind::Custom;
         userType->Activator =
             []() -> Platform::Object^ 
             {
                 return ref new ::VapoRT::SteamDataVM(); 
             };
+        userType->AddMemberName(L"SelectedItem");
         userType->AddMemberName(L"Items");
         userType->SetIsBindable();
         return userType;
@@ -1041,6 +1043,25 @@
         return xamlMember;
     }
 
+    if (longMemberName == L"VapoRT.SteamDataDesignVM.SelectedItem")
+    {
+        ::XamlTypeInfo::InfoProvider::XamlMember^ xamlMember = ref new ::XamlTypeInfo::InfoProvider::XamlMember(this, L"SelectedItem", L"VapoRT.SteamUserDesignVM");
+        xamlMember->Getter =
+            [](Object^ instance) -> Object^
+            {
+                auto that = (::VapoRT::SteamDataDesignVM^)instance;
+                return that->SelectedItem;
+            };
+
+        xamlMember->Setter =
+            [](Object^ instance, Object^ value) -> void
+            {
+                auto that = (::VapoRT::SteamDataDesignVM^)instance;
+                that->SelectedItem = (::VapoRT::SteamUserDesignVM^)value;
+            };
+        return xamlMember;
+    }
+
     if (longMemberName == L"VapoRT.SteamConnectionVM.UserName")
     {
         ::XamlTypeInfo::InfoProvider::XamlMember^ xamlMember = ref new ::XamlTypeInfo::InfoProvider::XamlMember(this, L"UserName", L"String");
@@ -1455,25 +1476,6 @@
         return xamlMember;
     }
 
-    if (longMemberName == L"VapoRT.SteamUserVM.CurrentMessage")
-    {
-        ::XamlTypeInfo::InfoProvider::XamlMember^ xamlMember = ref new ::XamlTypeInfo::InfoProvider::XamlMember(this, L"CurrentMessage", L"String");
-        xamlMember->Getter =
-            [](Object^ instance) -> Object^
-            {
-                auto that = (::VapoRT::SteamUserVM^)instance;
-                return that->CurrentMessage;
-            };
-
-        xamlMember->Setter =
-            [](Object^ instance, Object^ value) -> void
-            {
-                auto that = (::VapoRT::SteamUserVM^)instance;
-                that->CurrentMessage = (::Platform::String^)value;
-            };
-        return xamlMember;
-    }
-
     if (longMemberName == L"VapoRT.SteamUserVM.SendCurrentMessage")
     {
         ::XamlTypeInfo::InfoProvider::XamlMember^ xamlMember = ref new ::XamlTypeInfo::InfoProvider::XamlMember(this, L"SendCurrentMessage", L"VapoRT.Common.DelegateCommand");
@@ -1489,6 +1491,25 @@
             {
                 auto that = (::VapoRT::SteamUserVM^)instance;
                 that->SendCurrentMessage = (::VapoRT::Common::DelegateCommand^)value;
+            };
+        return xamlMember;
+    }
+
+    if (longMemberName == L"VapoRT.SteamUserVM.CurrentMessage")
+    {
+        ::XamlTypeInfo::InfoProvider::XamlMember^ xamlMember = ref new ::XamlTypeInfo::InfoProvider::XamlMember(this, L"CurrentMessage", L"String");
+        xamlMember->Getter =
+            [](Object^ instance) -> Object^
+            {
+                auto that = (::VapoRT::SteamUserVM^)instance;
+                return that->CurrentMessage;
+            };
+
+        xamlMember->Setter =
+            [](Object^ instance, Object^ value) -> void
+            {
+                auto that = (::VapoRT::SteamUserVM^)instance;
+                that->CurrentMessage = (::Platform::String^)value;
             };
         return xamlMember;
     }
@@ -1634,6 +1655,25 @@
             };
 
         xamlMember->SetIsReadOnly();
+        return xamlMember;
+    }
+
+    if (longMemberName == L"VapoRT.SteamDataVM.SelectedItem")
+    {
+        ::XamlTypeInfo::InfoProvider::XamlMember^ xamlMember = ref new ::XamlTypeInfo::InfoProvider::XamlMember(this, L"SelectedItem", L"VapoRT.SteamUserVM");
+        xamlMember->Getter =
+            [](Object^ instance) -> Object^
+            {
+                auto that = (::VapoRT::SteamDataVM^)instance;
+                return that->SelectedItem;
+            };
+
+        xamlMember->Setter =
+            [](Object^ instance, Object^ value) -> void
+            {
+                auto that = (::VapoRT::SteamDataVM^)instance;
+                that->SelectedItem = (::VapoRT::SteamUserVM^)value;
+            };
         return xamlMember;
     }
 
