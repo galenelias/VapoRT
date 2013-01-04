@@ -6,6 +6,8 @@
 #include <string>
 #include <cassert>
 
+#include <json.h>
+
 namespace Util
 {
 	std::wstring FormatWstr(const wchar_t *pwzFormat, ...)

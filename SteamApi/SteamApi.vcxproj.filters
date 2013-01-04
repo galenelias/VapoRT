@@ -22,5 +22,6 @@
     <ClInclude Include="StandardUtils.h" />
     <ClInclude Include="SteamAPI_private.h" />
     <ClInclude Include="SteamDataBaseStorage.h" />
+    <ClInclude Include="SteamApiUtils.h" />
   </ItemGroup>
 </Project>

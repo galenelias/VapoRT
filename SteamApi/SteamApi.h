@@ -1,6 +1,5 @@
 ﻿#pragma once
 
-#include "pplxtasks.h"
 #include <ppltasks.h>
 #include <functional>
 #include "Event.h"
