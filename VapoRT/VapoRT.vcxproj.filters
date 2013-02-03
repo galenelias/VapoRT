@@ -143,6 +143,12 @@
     <ClInclude Include="Common\XamlHelpers.h">
       <Filter>Common</Filter>
     </ClInclude>
+    <ClInclude Include="Common\DateConverter.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\ImmersiveUtils.h">
+      <Filter>Common</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest" />

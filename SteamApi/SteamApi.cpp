@@ -63,20 +63,20 @@ namespace SteamAPI
 
 	///  SteamuserMessage ///
 
-	SteamUserMessage::SteamUserMessage(SteamUserPtr & user, const wchar_t * pwzMessage, bool fFromMe)
-		: m_fFromMe(fFromMe), m_wstMessage(pwzMessage), m_fromUser(user)
+	SteamUserMessage::SteamUserMessage(SteamUserPtr & user, const wchar_t * pwzMessage, time_t sentTime, bool fFromMe)
+		: m_fFromMe(fFromMe), m_wstMessage(pwzMessage), m_fromUser(user), m_sentTime(sentTime)
 	{
 
 	}
 
-	SteamMessagePtr CreateSteamUserMessageX(SteamUserPtr & user, const wchar_t * pwzMessage, bool fFromMe)
+	SteamMessagePtr CreateSteamUserMessageX(SteamUserPtr & user, const wchar_t * pwzMessage, time_t sentTime, bool fFromMe)
 	{
-		return SteamUserMessage::CreateSteamUserMessage(user, pwzMessage, fFromMe);
+		return SteamUserMessage::CreateSteamUserMessage(user, pwzMessage, sentTime, fFromMe);
 	}
 
-	/*static*/ SteamMessagePtr SteamUserMessage::CreateSteamUserMessage(SteamUserPtr & user, const wchar_t * pwzMessage, bool fFromMe)
+	/*static*/ SteamMessagePtr SteamUserMessage::CreateSteamUserMessage(SteamUserPtr & user, const wchar_t * pwzMessage, time_t sentTime, bool fFromMe)
 	{
-		return std::make_shared<SteamUserMessage>(user, pwzMessage, fFromMe);
+		return std::make_shared<SteamUserMessage>(user, pwzMessage, sentTime, fFromMe);
 	}
 
 	/// SteamUser ///
@@ -88,27 +88,27 @@ namespace SteamAPI
 	}
 
 
-	SteamConversation_t SteamUser::GetConversationHistory()
-	{
-		SteamConversation_t rgConversationHistory;
+	//SteamConversation_t SteamUser::GetConversationHistory()
+	//{
+	//	SteamConversation_t rgConversationHistory;
 
-		CSQLite_Connection & db = CSteamDBConnection::GetInstance();
+	//	CSQLite_Connection & db = CSteamDBConnection::GetInstance();
 
-		std::string strQuery = FormatStr("SELECT SteamID, FromMe, Message FROM ConversationHistory WHERE SteamID=\"%S\" ORDER BY Sent ASC ", GetSteamID());
-		CSQLite_Results results = db.FRunQuery(strQuery.data());
+	//	std::string strQuery = FormatStr("SELECT SteamID, FromMe, Message FROM ConversationHistory WHERE SteamID=\"%S\" ORDER BY Sent ASC ", GetSteamID());
+	//	CSQLite_Results results = db.FRunQuery(strQuery.data());
 
-		for (int iRow = 0; iRow != results.NRows(); ++iRow)
-		{
-			std::wstring stwMessage = StrMultiToWide(results[iRow][2]);
-			std::string strFromMe = results[iRow][1];
+	//	for (int iRow = 0; iRow != results.NRows(); ++iRow)
+	//	{
+	//		std::wstring stwMessage = StrMultiToWide(results[iRow][2]);
+	//		std::string strFromMe = results[iRow][1];
 
-			SteamUserPtr userPtr = shared_from_this();
-			SteamMessagePtr msg = SteamUserMessage::CreateSteamUserMessage(userPtr, stwMessage.data(), strFromMe == "True");
-			rgConversationHistory.push_back(msg);
-		}
+	//		SteamUserPtr userPtr = shared_from_this();
+	//		SteamMessagePtr msg = SteamUserMessage::CreateSteamUserMessage(userPtr, stwMessage.data(), time(nullptr), strFromMe == "True");
+	//		rgConversationHistory.push_back(msg);
+	//	}
 
-		return rgConversationHistory;
-	}
+	//	return rgConversationHistory;
+	//}
 
 	SteamConversationPtr SteamUser::GetConversation()
 	{
@@ -180,11 +180,11 @@ namespace SteamAPI
 
 	concurrency::task<bool> SteamConnection::SendUserMessage(const wchar_t *pwzSteamID, const wchar_t * pwzMessage)
 	{
-		return concurrency::create_task([]()->bool
-		{
-			WaitForSingleObjectEx(GetCurrentThread(), 2000, TRUE);
-			return true;
-		});
+		//return concurrency::create_task([]()->bool
+		//{
+		//	WaitForSingleObjectEx(GetCurrentThread(), 2000, TRUE);
+		//	return true;
+		//});
 
 		VerifyLoggedIn();
 
@@ -434,10 +434,6 @@ namespace SteamAPI
 					continue;
 
 				user->UpdateStatus(message[L"persona_state"].as_integer());
-
-				// Fake message for testing
-				//std::wstring wstMessage = FormatWstr(L"%s updated persona state -> %d", message[L"persona_name"].as_string().c_str(), message[L"persona_state"].as_integer());
-				//user->SyncMessageFromNetwork(wstMessage.c_str(), false, timestamp);
 			}
 			else if (messageType == L"typing")
 			{
@@ -465,7 +461,6 @@ namespace SteamAPI
 				SteamID_t steamID = message[L"steamid_from"].as_string();
 				if (JsonHasValue(message, L"persona_state"))
 					int personaState = message[L"persona_state"].as_integer();
-
 			}
 		}
 	}
@@ -719,13 +714,13 @@ namespace SteamAPI
 
 	void SteamConversation::CreateChangeEvent(int x)
 	{
-		std::wstring stwMessage = L"Blah";
-		SteamAPI::SteamMessagePtr msg = SteamAPI::CreateSteamUserMessageX(m_User, stwMessage.data(), false);
+		//std::wstring stwMessage = L"Blah";
+		//SteamAPI::SteamMessagePtr msg = SteamAPI::CreateSteamUserMessageX(m_User, stwMessage.data(), false);
 
-		int insertIndex = m_ConversationItems.size();
-		m_ConversationItems.push_back(msg);
+		//int insertIndex = m_ConversationItems.size();
+		//m_ConversationItems.push_back(msg);
 
-		m_ConversationChangedEvent(this, insertIndex);
+		//m_ConversationChangedEvent(this, insertIndex);
 	}
 
 	SteamConversation_t SteamConversation::GetMessages()
@@ -750,7 +745,7 @@ namespace SteamAPI
 
 	void SteamConversation::SyncMessage(const wchar_t * pwzMessage, bool fromMe)
 	{
-		SteamAPI::SteamMessagePtr msg = SteamAPI::CreateSteamUserMessageX(m_User, pwzMessage, fromMe);
+		SteamAPI::SteamMessagePtr msg = SteamAPI::CreateSteamUserMessageX(m_User, pwzMessage, time(nullptr), fromMe);
 
 		int insertIndex = m_ConversationItems.size();
 		m_ConversationItems.push_back(msg);
@@ -764,16 +759,16 @@ namespace SteamAPI
 
 		CSQLite_Connection & db = CSteamDBConnection::GetInstance();
 
-		std::string strQuery = FormatStr("SELECT SteamID, FromMe, Message FROM ConversationHistory WHERE SteamID=\"%S\" ORDER BY Sent ASC ", m_User->GetSteamID());
+		std::string strQuery = FormatStr("SELECT SteamID, FromMe, Message, Sent FROM ConversationHistory WHERE SteamID=\"%S\" ORDER BY Sent ASC ", m_User->GetSteamID());
 		CSQLite_Results results = db.FRunQuery(strQuery.data());
 
 		for (int iRow = 0; iRow != results.NRows(); ++iRow)
 		{
 			std::wstring stwMessage = StrMultiToWide(results[iRow][2]);
 			std::string strFromMe = results[iRow][1];
-
+			time_t sentTime = ParseLongLongFromString(results[iRow][3]);
 			SteamUserPtr userPtr = m_User;
-			SteamMessagePtr msg = SteamUserMessage::CreateSteamUserMessage(userPtr, stwMessage.data(), strFromMe == "True");
+			SteamMessagePtr msg = SteamUserMessage::CreateSteamUserMessage(userPtr, stwMessage.data(), sentTime, strFromMe == "True");
 			rgConversationHistory.push_back(msg);
 		}
 
@@ -805,6 +800,5 @@ namespace SteamAPI
 		CSQLite_Connection & db = CSteamDBConnection::GetInstance();
 		CSQLite_Results results = db.FRunQuery(strQuery.data());
 	}
-
 
 }  // End namespace SteamAPI

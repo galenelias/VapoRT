@@ -103,11 +103,6 @@
         return ref new XamlSystemBaseType(typeName);
     }
 
-    if (typeName == L"Windows.UI.Xaml.Input.ICommand")
-    {
-        return ref new XamlSystemBaseType(typeName);
-    }
-
     if (typeName == L"Int32")
     {
         return ref new XamlSystemBaseType(typeName);
@@ -166,6 +161,18 @@
         return userType;
     }
 
+    if (typeName == L"VapoRT.DateConverter")
+    {
+        ::XamlTypeInfo::InfoProvider::XamlUserType^ userType = ref new ::XamlTypeInfo::InfoProvider::XamlUserType(this, typeName, GetXamlTypeByName(L"Object"));
+        userType->KindOfType = ::Windows::UI::Xaml::Interop::TypeKind::Custom;
+        userType->Activator =
+            []() -> Platform::Object^ 
+            {
+                return ref new ::VapoRT::DateConverter(); 
+            };
+        return userType;
+    }
+
     if (typeName == L"VapoRT.ConversationDataTemplateSelector")
     {
         ::XamlTypeInfo::InfoProvider::XamlUserType^ userType = ref new ::XamlTypeInfo::InfoProvider::XamlUserType(this, typeName, GetXamlTypeByName(L"Windows.UI.Xaml.Controls.DataTemplateSelector"));
@@ -205,19 +212,6 @@
             };
         userType->AddMemberName(L"IsEnabled");
         userType->AddMemberName(L"UpdateSourceText");
-        return userType;
-    }
-
-    if (typeName == L"VapoRT.EnterKeyToCommand")
-    {
-        ::XamlTypeInfo::InfoProvider::XamlUserType^ userType = ref new ::XamlTypeInfo::InfoProvider::XamlUserType(this, typeName, GetXamlTypeByName(L"Windows.UI.Xaml.DependencyObject"));
-        userType->KindOfType = ::Windows::UI::Xaml::Interop::TypeKind::Custom;
-        userType->Activator =
-            []() -> Platform::Object^ 
-            {
-                return ref new ::VapoRT::EnterKeyToCommand(); 
-            };
-        userType->AddMemberName(L"EnterKeyCommand");
         return userType;
     }
 
@@ -321,6 +315,7 @@
         userType->AddMemberName(L"From");
         userType->AddMemberName(L"FromMe");
         userType->AddMemberName(L"FromPic");
+        userType->AddMemberName(L"SentTime");
         userType->SetIsBindable();
         return userType;
     }
@@ -696,26 +691,6 @@
         return xamlMember;
     }
 
-    if (longMemberName == L"VapoRT.EnterKeyToCommand.EnterKeyCommand")
-    {
-        ::XamlTypeInfo::InfoProvider::XamlMember^ xamlMember = ref new ::XamlTypeInfo::InfoProvider::XamlMember(this, L"EnterKeyCommand", L"Windows.UI.Xaml.Input.ICommand");
-        xamlMember->SetTargetTypeName(L"Windows.UI.Xaml.UIElement");
-        xamlMember->SetIsDependencyProperty();
-        xamlMember->SetIsAttachable();
-        xamlMember->Getter =
-            [](Object^ instance) -> Object^
-            {
-                return ::VapoRT::EnterKeyToCommand::GetEnterKeyCommand((::Windows::UI::Xaml::UIElement^)instance);
-            };
-
-        xamlMember->Setter =
-            [](Object^ instance, Object^ value) -> void
-            {
-                ::VapoRT::EnterKeyToCommand::SetEnterKeyCommand((::Windows::UI::Xaml::UIElement^)instance, (::Windows::UI::Xaml::Input::ICommand^)value);
-            };
-        return xamlMember;
-    }
-
     if (longMemberName == L"VapoRT.SteamDataDesignVM.Title")
     {
         ::XamlTypeInfo::InfoProvider::XamlMember^ xamlMember = ref new ::XamlTypeInfo::InfoProvider::XamlMember(this, L"Title", L"String");
@@ -965,6 +940,27 @@
             {
                 auto that = (::VapoRT::ConversationItemVM^)instance;
                 that->FromPic = (::Windows::Foundation::Uri^)value;
+            };
+        return xamlMember;
+    }
+
+    if (longMemberName == L"VapoRT.ConversationItemVM.SentTime")
+    {
+        ::XamlTypeInfo::InfoProvider::XamlMember^ xamlMember = ref new ::XamlTypeInfo::InfoProvider::XamlMember(this, L"SentTime", L"Windows.Foundation.DateTime");
+        xamlMember->Getter =
+            [](Object^ instance) -> Object^
+            {
+                auto that = (::VapoRT::ConversationItemVM^)instance;
+                auto value = ref new ::Platform::Box<::Windows::Foundation::DateTime>(that->SentTime);
+                return value;
+            };
+
+        xamlMember->Setter =
+            [](Object^ instance, Object^ value) -> void
+            {
+                auto that = (::VapoRT::ConversationItemVM^)instance;
+                auto boxedValue = (::Platform::IBox<::Windows::Foundation::DateTime>^)value;
+                that->SentTime = boxedValue->Value;
             };
         return xamlMember;
     }

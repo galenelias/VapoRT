@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Common\DelegateCommand.h"
+#include "Common\ImmersiveUtils.h"
 
 #define MAKE_PROP(type, var)  \
 	private: \
@@ -21,11 +22,12 @@ namespace VapoRT
 	public ref class ConversationItemVM sealed
 	{
 	public:
-		ConversationItemVM() {}
+		ConversationItemVM();
 
 		property Platform::String^  Message;
 		property Platform::String^  From;
 		property bool     FromMe;
+		property Windows::Foundation::DateTime SentTime;
 		property Windows::Foundation::Uri^ FromPic;
 	};
 
@@ -162,9 +164,7 @@ namespace VapoRT
 		property Windows::Foundation::DateTime LastLogOffTime
 		{
 			Windows::Foundation::DateTime get() { 
-				Windows::Foundation::DateTime datetime;
-				datetime.UniversalTime = ((m_model->GetLastLogOffTime() + 11644473600) * 10000000);
-				return datetime;
+				return UnixTimeToDateTime(m_model->GetLastLogOffTime());
 			}
 		}
 

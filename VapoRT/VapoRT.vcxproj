@@ -142,9 +142,11 @@
     <ClInclude Include="ChatPage.xaml.h">
       <DependentUpon>ChatPage.xaml</DependentUpon>
     </ClInclude>
+    <ClInclude Include="Common\DateConverter.h" />
     <ClInclude Include="Common\DelegateCommand.h" />
     <ClInclude Include="Common\EnterKeyToCommand.h" />
     <ClInclude Include="Common\EventRegistrationTokenMap.h" />
+    <ClInclude Include="Common\ImmersiveUtils.h" />
     <ClInclude Include="Common\StayScrolledToBottom.h" />
     <ClInclude Include="Common\UpdateSourceHelper.h" />
     <ClInclude Include="Common\XamlHelpers.h" />

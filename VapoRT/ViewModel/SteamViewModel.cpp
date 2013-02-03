@@ -208,6 +208,13 @@ unsigned int VirtualConversationList::Size::get()
 	return m_ChatConversation->GetCount();
 }
 
+ConversationItemVM::ConversationItemVM()
+{
+	auto cal = ref new Windows::Globalization::Calendar();
+	cal->SetToNow();
+	SentTime = cal->GetDateTime();
+}
+
 Platform::Object^ VirtualConversationList::GetAt(unsigned int index)
 {
 	const SteamAPI::SteamMessagePtr & message = m_ChatConversation->GetMessage(index);
@@ -215,6 +222,7 @@ Platform::Object^ VirtualConversationList::GetAt(unsigned int index)
 	convItem->FromMe = message->GetFromMe();
 	convItem->Message = ref new Platform::String(FormatWstr(L"%s (%d)", message->GetMessage(), index).c_str());
 	convItem->From = ref new Platform::String(m_User->GetPersonaName());
+	convItem->SentTime = UnixTimeToDateTime(message->GetSentTime());
 
 	if (message->GetFromMe())
 		convItem->FromPic = m_LoggedInAvatarURI;

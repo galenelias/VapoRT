@@ -56,15 +56,17 @@ namespace SteamAPI
 		virtual bool              GetFromMe() override { return m_fFromMe; }
 		virtual SteamUserPtr      GetFromUser() override { return m_fromUser; }
 		virtual const wchar_t*    GetMessage() override { return m_wstMessage.data(); }
+		virtual time_t            GetSentTime() override { return m_sentTime; }
 
-		SteamUserMessage(SteamUserPtr & user, const wchar_t * pwzMessage, bool fFromMe);
+		SteamUserMessage(SteamUserPtr & user, const wchar_t * pwzMessage, time_t sentTime, bool fFromMe);
 
-		static SteamMessagePtr CreateSteamUserMessage(SteamUserPtr & user, const wchar_t * pwzMessage, bool fFromMe);
+		static SteamMessagePtr CreateSteamUserMessage(SteamUserPtr & user, const wchar_t * pwzMessage, time_t sentTime, bool fFromMe);
 	private:
 
 		bool           m_fFromMe;
 		SteamUserPtr   m_fromUser;
 		std::wstring   m_wstMessage;
+		time_t         m_sentTime;
 	};
 
 	class SteamConnection : public ISteamConnection, public std::enable_shared_from_this<SteamConnection>
@@ -143,7 +145,7 @@ namespace SteamAPI
 		virtual OnlineStatus                   GetOnlineStatus()   override { return m_Status; }
 		virtual time_t                         GetLastLogOffTime() override { return m_LastLogOff; }
 		virtual std::tuple<bool, std::wstring> GetCurrentGame() override { return std::make_tuple(!m_CurrentGameID.empty(), m_CurrentGameName); }
-		virtual SteamConversation_t            GetConversationHistory() override;
+		//virtual SteamConversation_t            GetConversationHistory() override;
 		virtual SteamConversationPtr           GetConversation() override;
 
 		virtual SteamConnectionWeakPtr GetConnection() override { SteamConnectionWeakPtr xyz(m_connectionWeakPtr); return xyz; }

@@ -12,6 +12,7 @@
                            >
 
     <Page.Resources>
+        <local:DateConverter x:Key="dateConverter" />
 
         <!-- Collection of items displayed by this page -->
         <CollectionViewSource
@@ -22,16 +23,17 @@
             <Grid Name="ConvGrid2" Margin="0,10,0,10">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
-                <Image Source="{Binding Path=FromPic}" MaxWidth="100"  Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" MaxHeight="48" />
-                <Border Background="#FF383838" CornerRadius="5" Grid.Row="0" Grid.Column="1" Margin="10,0,0,0" HorizontalAlignment="Left">
+                <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Path=SentTime, Converter={StaticResource dateConverter}}" HorizontalAlignment="Left" Margin="15,5,15,0"/>
+                <Image Grid.Row="1" Grid.Column="0" Source="{Binding Path=FromPic}" MaxWidth="100"  HorizontalAlignment="Left" MaxHeight="48" />
+                <Border Grid.Row="1" Grid.Column="1" Background="#FF383838" CornerRadius="5" Margin="10,0,0,0" HorizontalAlignment="Left">
                     <TextBlock  Text="{Binding Path=Message}" FontSize="24" Margin="15,5,15,5" VerticalAlignment="Center" />
-                    <!--<TextBox Text="{Binding Path=Message}" Grid.Row="0" Grid.Column="1" Background="#00000000" Foreground="#FFFFFFFF"  BorderThickness="0"  FontSize="24" Margin="15,5,15,5" VerticalAlignment="Center" IsReadOnly="True" />-->
                 </Border>
             </Grid>
         </DataTemplate>
@@ -39,20 +41,20 @@
             <Grid Name="ConvGrid3" HorizontalAlignment="Right" Margin="0,10,0,10">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-
-                <Image Source="{Binding Path=FromPic}" MaxWidth="100"  Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" MaxHeight="48" />
-                <Border Background="#FF383838" CornerRadius="5" Grid.Row="0" Grid.Column="0" Margin="0,0,10,0" HorizontalAlignment="Left">
+                <TextBlock Text="{Binding Path=SentTime, Converter={StaticResource dateConverter}}" HorizontalAlignment="Right" Margin="0,0,15,0"/>
+                <Image Grid.Row="1" Grid.Column="1" Source="{Binding Path=FromPic}" MaxWidth="100" HorizontalAlignment="Left" MaxHeight="48" />
+                <Border Grid.Row="1" Grid.Column="0" Background="#FF383838" CornerRadius="5" Margin="0,0,10,0" HorizontalAlignment="Left">
                     <TextBlock  Text="{Binding Path=Message}" FontSize="24" Margin="15,5,15,5" VerticalAlignment="Center" />
                 </Border>
             </Grid>
         </DataTemplate>
         <local:ConversationDataTemplateSelector x:Key="convSelector" ToMeTemplate="{StaticResource ConversationLeft}" FromMeTemplate="{StaticResource ConversationRight}"/>
-
     </Page.Resources>
 
     <!--
@@ -174,8 +176,8 @@
                 <TextBox x:Name="MessageComposeBox" Grid.Column="0" Text="{Binding CurrentMessage}" 
                     VerticalAlignment="Center"
                     local:UpdateSourceHelper.IsEnabled = "True"
-                    local:UpdateSourceHelper.UpdateSourceText = "{Binding Path=CurrentMessage, Mode=TwoWay}"
-                    local:EnterKeyToCommand.EnterKeyCommand = "{Binding SendCurrentMessage}" />
+                    local:UpdateSourceHelper.UpdateSourceText = "{Binding Path=CurrentMessage, Mode=TwoWay}" />
+                    <!--local:EnterKeyToCommand.EnterKeyCommand = "{Binding SendCurrentMessage}"--> 
 
                 <Button Grid.Column="1" Content="Send" Command="{Binding SendCurrentMessage}"  HorizontalAlignment="Right" Margin="2,2,2,2" />
                 <ProgressRing Grid.Column="2" Width="40" IsActive="{Binding SendingMessage}"/>

@@ -2,7 +2,7 @@
     <SteamDataDesignVM.Items>
         <SteamUserDesignVM SteamID="123456789" PersonaName="Michael Myers" StatusString="In Game: Dota 2" OnlineStatus="1" InGame="True" StatusColor="#FFA7D46B">
             <SteamUserDesignVM.ConversationHistory>
-                <ConversationItemVM Message="Hey there!" From="Paradochs" FromMe="False" />
+                <ConversationItemVM Message="Hey there!" From="Paradochs" FromMe="False"/>
                 <ConversationItemVM Message="sup?" From="Davian" FromMe="True" />
                 <ConversationItemVM Message="Not much, up for a game?" From="Paradochs" FromMe="False" />
                 <ConversationItemVM Message="Sure, gimme one sec" From="Davian" FromMe="True" />

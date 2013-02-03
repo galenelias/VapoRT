@@ -9,6 +9,7 @@
 #include "Common\EnterKeyToCommand.h"
 #include "Common\UpdateSourceHelper.h"
 #include "Common\StayScrolledToBottom.h"
+#include "Common\DateConverter.h"
 #include "ChatPage.g.h"
 #include "ViewModel\SteamViewModel.h"
 

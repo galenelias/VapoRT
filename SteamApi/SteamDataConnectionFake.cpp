@@ -2,7 +2,7 @@
 
 #include <ctime>
 #include <set>
-
+#include <cassert>
 
 #include "SteamAPI.h"
 #include "SteamAPI_private.h"
@@ -12,11 +12,51 @@ namespace SteamAPI
 {
 	const wchar_t HTTP_JSON_CONTENT_TYPE[]                = L"application/json";
 
+	class FakeFriend
+	{
+	public:
+		std::wstring wstSteamId;
+		std::wstring wstPersonaName;
+		std::wstring wstAvatarUrl;
+		bool         isFriend;
+		int          personaState;
+		time_t       friendSince;
+	};
+
+	struct fake_friend_t
+	{ 
+		const wchar_t *pwzSteamID;
+		const wchar_t *pwzPersona;
+		const wchar_t *pwszAvatarUrl;
+		bool           isFriend;
+		int            personaState;
+		time_t         friendSince;
+	};
+
+	enum class MessageType
+	{
+		PersonaState,
+		SayText,
+		Typing,
+	};
+
+	class FakeMessage
+	{
+	public:
+		MessageType  type;
+		std::wstring wstSteamID;
+		std::wstring wstPersonaName;
+		std::wstring wstMiscString;
+		time_t       timeStamp;
+		UINT_PTR     miscData;
+	};
+
 	class FakeSteamDataConnection : public ISteamDataConnection
 	{
 	public:
 		FakeSteamDataConnection();
 
+		// ISteamDataConnection methods
 		virtual pplx::task<http::http_response> Login(const char *pszUserName, const char *pszPassword, const char *pszAuthCode) override;
 		virtual pplx::task<http::http_response> SendUserMessage(const wchar_t *pwzSteamID, const wchar_t * pwzMessage) override;
 		virtual pplx::task<http::http_response> ChatLogin() override;
@@ -29,35 +69,23 @@ namespace SteamAPI
 
 		static SteamDataConnectionPtr CreateFakeDataConnection();
 
-	private:
-		struct fake_friend_t
-		{ 
-			const wchar_t *pwzSteamID;
-			const wchar_t *pwzPersona;
-			const wchar_t *pwszAvatarUrl;
-			bool           isFriend;
-			int            personaState;
-			time_t         friendSince;
-		};
-		static fake_friend_t friends[];
+	private:  // Methods
+		void LoadFriendData();
+		void AddFakeStateUpdate(const std::wstring& wstSteamID, int personaState);
+		void AddFakeUserMessage(const std::wstring& wstSteamID, const std::wstring & wstMessage);
 
-		class FakeFriend
-		{
-		public:
-			std::wstring wstSteamId;
-			std::wstring wstPersonaName;
-			std::wstring wstAvatarUrl;
-			bool         isFriend;
-			int          personaState;
-			time_t       friendSince;
-		};
+		std::wstring LookupUserPersonaName(const std::wstring & wstSteamID);
+		FakeFriend & LookupUser(const std::wstring & wstSteamID);
+
+		pplx::task<http::http_response> MakeFakeResponse(const wchar_t *pwzResponse, DWORD msDelay = 0);
+
+	private:  // Members
+		static fake_friend_t s_friendData[];
 
 		std::unordered_map<std::wstring, FakeFriend>  m_userMap;
 		int                                           m_pollMessage;
+		std::vector<FakeMessage>                      m_queuedMessages;
 
-		void LoadFriendData();
-
-		pplx::task<http::http_response> MakeFakeResponse(const wchar_t *pwzResponse, DWORD msDelay = 0);
 	};
 
 	FakeSteamDataConnection::FakeSteamDataConnection()
@@ -66,7 +94,7 @@ namespace SteamAPI
 		LoadFriendData();
 	}
 
-	FakeSteamDataConnection::fake_friend_t FakeSteamDataConnection::friends[] = {
+	fake_friend_t FakeSteamDataConnection::s_friendData[] = {
 		//steamid               personaname,        avatar_url                                                                                                                                      fr?  S  friends_since
 		{ L"76561198066311334", L"Corg"           , L"http:\\/\\/media.steampowered.com\\/steamcommunity\\/public\\/images\\/avatars\\/db\\/db165c0b3816930a3a15a5141aa79e096413987e_medium.jpg",  true, 4, 0}, 
 		{ L"76561197995070795", L"Dahllm"         , L"http:\\/\\/media.steampowered.com\\/steamcommunity\\/public\\/images\\/avatars\\/59\\/59b25482ce56f2c0a91d050b259d1201ed94a433_medium.jpg",  true, 4, 1345265840}, 
@@ -90,7 +118,7 @@ namespace SteamAPI
 		if (!m_userMap.empty())
 			return;
 
-		for (auto iter : friends)
+		for (auto iter : s_friendData)
 		{
 			FakeFriend newFriend;
 			newFriend.wstSteamId     = iter.pwzSteamID;
@@ -101,6 +129,8 @@ namespace SteamAPI
 			newFriend.isFriend       = iter.isFriend;
 			m_userMap[newFriend.wstSteamId] = newFriend;
 		}
+
+		AddFakeStateUpdate(L"76561197969962114", 1);
 	}
 
 	pplx::task<http::http_response> FakeSteamDataConnection::MakeFakeResponse(const wchar_t *pwzResponse, DWORD msDelay)
@@ -125,13 +155,55 @@ namespace SteamAPI
 
 	pplx::task<http::http_response> FakeSteamDataConnection::SendUserMessage(const wchar_t *pwzSteamID, const wchar_t * pwzMessage)
 	{
-		return MakeFakeResponse( L"{ }" );
+		AddFakeUserMessage(pwzSteamID, L"Loud and clear!");
+
+		return MakeFakeResponse( L"{ \"error\": \"OK\"}" );
 	}
 
 	pplx::task<http::http_response> FakeSteamDataConnection::ChatLogin()
 	{
 		return MakeFakeResponse( L"{ \"steamid\": \"76561198001848589\", \"error\": \"OK\", \"umqid\": \"9543\", \"timestamp\": 129536441, \"message\": 0, \"push\": 0}" );
 	}
+
+	FakeFriend & FakeSteamDataConnection::LookupUser(const std::wstring & wstSteamID)
+	{
+		auto iter = m_userMap.find(wstSteamID);
+		assert(iter != m_userMap.end());
+		return iter->second;
+	}
+
+	std::wstring FakeSteamDataConnection::LookupUserPersonaName(const std::wstring & wstSteamID)
+	{
+		FakeFriend & user = LookupUser(std::wstring(wstSteamID));
+		return user.wstPersonaName;
+	}
+
+	void FakeSteamDataConnection::AddFakeStateUpdate(const std::wstring& wstSteamID, int personaState)
+	{
+		FakeMessage msg;
+
+		msg.type = MessageType::PersonaState;
+		msg.wstSteamID = wstSteamID;
+		msg.wstPersonaName = LookupUserPersonaName(wstSteamID);
+		msg.timeStamp = time(nullptr);
+		msg.miscData = (UINT_PTR)personaState;
+
+		m_queuedMessages.push_back(std::move(msg));
+	}
+
+	void FakeSteamDataConnection::AddFakeUserMessage(const std::wstring& wstSteamID, const std::wstring & wstMessage)
+	{
+		FakeMessage msg;
+
+		msg.type = MessageType::SayText;
+		msg.wstSteamID = wstSteamID;
+		msg.wstPersonaName = LookupUserPersonaName(wstSteamID);
+		msg.timeStamp = time(nullptr);
+		msg.wstMiscString = wstMessage;
+
+		m_queuedMessages.push_back(std::move(msg));
+	}
+
 
 	pplx::task<http::http_response> FakeSteamDataConnection::GetMessages(int baseMessage, const wchar_t * pwzSteamID, bool fSecure)
 	{
@@ -146,27 +218,55 @@ namespace SteamAPI
 		http::json::value::element_vector messagesArray;
 		//for (auto iFriend : m_userMap)
 		{
-			auto message          = http::json::value::object();
-			message[L"type"]         = http::json::value::string(L"personastate");
-			message[L"relationship"] = http::json::value::string(L"friend");
-			message[L"steamid_from"] = http::json::value::string(L"76561197969962114");
-			message[L"persona_name"] = http::json::value::string(L"Paradochs");
-			message[L"persona_state"]= http::json::value::number(1);
-			message[L"timestamp"]    = http::json::value::number(295315435);
+			//auto message             = http::json::value::object();
+			//message[L"type"]         = http::json::value::string(L"personastate");
+			//message[L"relationship"] = http::json::value::string(L"friend");
+			//message[L"steamid_from"] = http::json::value::string(L"76561197969962114");
+			//message[L"persona_name"] = http::json::value::string(L"Paradochs");
+			//message[L"persona_state"]= http::json::value::number(1);
+			//message[L"timestamp"]    = http::json::value::number(295315435);
+			//messagesArray.push_back(message);
+		}
+
+		for (auto msg : m_queuedMessages)
+		{
+			auto message = http::json::value::object();
+
+			message[L"steamid_from"] = http::json::value::string(msg.wstSteamID);
+			message[L"persona_name"] = http::json::value::string(msg.wstPersonaName);
+			message[L"timestamp"]    = http::json::value::number((int)msg.timeStamp);
+
+			if (msg.type == MessageType::PersonaState)
+			{
+				message[L"type"]         = http::json::value::string(L"personastate");
+				message[L"relationship"] = http::json::value::string(L"friend");
+				message[L"persona_state"]= http::json::value::number((int)msg.miscData);
+			}
+			else if (msg.type == MessageType::SayText)
+			{
+				message[L"type"]         = http::json::value::string(L"saytext");
+				message[L"text"]         = http::json::value::string(msg.wstMiscString);
+			}
+
 			messagesArray.push_back(message);
 		}
+		m_queuedMessages.clear();
+
 		response[L"messages"]          = http::json::value::array(messagesArray);
 
 		m_pollMessage = baseMessage;
 
-		return MakeFakeResponse( response.to_string().c_str(), 20000);
+		AddFakeStateUpdate(s_friendData[rand() % _countof(s_friendData)].pwzSteamID, 1);
+
+
+		return MakeFakeResponse( response.to_string().c_str(), 10000);
 	}
 
 	pplx::task<http::http_response> FakeSteamDataConnection::GetUsersData(const wchar_t * pwzSteamIds)
 	{
 		int i = 0;
 
-		http::json::value friendArray = http::json::value::array(_countof(friends));
+		http::json::value friendArray = http::json::value::array(_countof(s_friendData));
 		for (auto iFriend : m_userMap)
 		{
 			friendArray[i] = http::json::value::object();

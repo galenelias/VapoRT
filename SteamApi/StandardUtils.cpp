@@ -127,5 +127,11 @@ namespace Util
 		return result;
 	}
 
-
+	LONGLONG ParseLongLongFromString(const char *psz)
+	{
+		std::istringstream iss(psz);
+		LONGLONG result;
+		iss >> result;
+		return result;
+	}
 }

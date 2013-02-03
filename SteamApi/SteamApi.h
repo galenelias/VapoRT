@@ -25,6 +25,7 @@ namespace SteamAPI
 		virtual bool              GetFromMe() = 0;
 		virtual SteamUserPtr      GetFromUser() = 0;
 		virtual const wchar_t*    GetMessage() = 0;
+		virtual time_t            GetSentTime() = 0;
 	};
 
 	__interface ISteamConversation
@@ -61,7 +62,7 @@ namespace SteamAPI
 		virtual time_t          GetLastLogOffTime() = 0;
 		virtual std::tuple<bool, std::wstring> GetCurrentGame() = 0;
 
-		virtual SteamConversation_t GetConversationHistory() = 0;
+		//virtual SteamConversation_t GetConversationHistory() = 0;
 		virtual SteamAPI::SteamConversationPtr GetConversation() = 0;
 
 		virtual concurrency::task<bool> SendMessage(const wchar_t * pwzMessage) = 0;
@@ -129,6 +130,6 @@ namespace SteamAPI
 	// Global public constructors
 	SteamConnectionPtr CreateSteamConnection(const wchar_t *pwzDatabaseFile, bool fFakeDataSource);
 
-	SteamMessagePtr CreateSteamUserMessageX(SteamUserPtr & user, const wchar_t * pwzMessage, bool fFromMe);
+	SteamMessagePtr CreateSteamUserMessageX(SteamUserPtr & user, const wchar_t * pwzMessage, time_t sentTime, bool fFromMe);
 
 } // namespace SteamAPI
