@@ -1,12 +1,8 @@
 #pragma once
 
-#include "json.h"
-
-//
-//#define NOCOMM 1
-//#include <windows.h>
-
 #undef GetMessage
+
+#include <string>
 
 namespace Util
 {
@@ -19,10 +15,11 @@ namespace Util
 
 	LONGLONG ParseLongLongFromString(const char *psz);
 
-	bool JsonHasValue(http::json::value & jsonValue, const casablanca::string_t & valueName);
-	casablanca::string_t JsonStringGetValueWithDefault(http::json::value & jsonValue, const casablanca::string_t & valueName, const casablanca::string_t & defaultValue);
+	//bool JsonHasValue(http::json::value & jsonValue, const casablanca::string_t & valueName);
+	//casablanca::string_t JsonStringGetValueWithDefault(http::json::value & jsonValue, const casablanca::string_t & valueName, const casablanca::string_t & defaultValue);
+	//
+	//std::wstring EscapeSQLString(const wchar_t *pwz);
 
-	std::wstring EscapeSQLString(const wchar_t *pwz);
 	std::wstring UrlEncodeString(const wchar_t *pwz);
 
 }

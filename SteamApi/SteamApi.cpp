@@ -10,6 +10,7 @@
 #include "SteamAPI.h"
 #include "SteamAPI_private.h"
 #include "StandardUtils.h"
+#include "SteamApiUtils.h"
 
 using namespace Util;
 
